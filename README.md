@@ -1,6 +1,6 @@
 # soundcloud-spectrogram
 
-An audio spectrogram visualization powered by SoundCloud tracks
+Audio spectrogram visualization for SoundCloud tracks
 
 Prototype: https://patterns.website/experiments/vanilla/audio/soundcloud.html
 
