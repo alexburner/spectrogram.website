@@ -11,7 +11,6 @@ const splitter = context.createChannelSplitter();
 const analyserL = context.createAnalyser();
 const analyserR = context.createAnalyser();
 
-
 const SIZE = 512;
 analyserL.fftSize = SIZE;
 analyserR.fftSize = SIZE;

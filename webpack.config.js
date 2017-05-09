@@ -30,8 +30,9 @@ module.exports = {
 
 	plugins: [
 		new CopyWebpackPlugin([
-			{ from: 'node_modules/react/dist/react.js', to: 'vendor/react/' },
-			{ from: 'node_modules/react-dom/dist/react-dom.js', to: 'vendor/react/' },
+			{ from: 'src/style.css', to: 'assets/' },
+			{ from: 'node_modules/react/dist/react.js', to: 'vendor/' },
+			{ from: 'node_modules/react-dom/dist/react-dom.js', to: 'vendor/' },
 		]),
 		new HtmlWebpackPlugin({
 			filename: 'index.html',
@@ -39,8 +40,9 @@ module.exports = {
 		}),
 		new HtmlWebpackIncludeAssetsPlugin({
 			assets: [
-				'vendor/react/react.js',
-				'vendor/react/react-dom.js',
+				'assets/style.css',
+				'vendor/react.js',
+				'vendor/react-dom.js',
 			],
 			append: false, // prepend
 		})
