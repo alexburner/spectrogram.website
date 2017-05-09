@@ -3,7 +3,7 @@
 		"jsx": "react",
 		"lib": ["dom", "es2015"],
 		"module": "commonjs",
-		"noImplicitAny": true,
+		"noImplicitAny": false,
 		"outDir": "./dist/",
 		"sourceMap": true,
 		"target": "es5"
