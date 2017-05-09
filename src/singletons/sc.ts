@@ -1,4 +1,4 @@
-import sdk from 'soundcloud';
+import * as sdk from 'soundcloud';
 
 export const client_id = 'Z8yVpZ0DJ4FcMwo5kk0bCEPNFfHs6AXJ';
 
@@ -29,13 +29,13 @@ export interface User {
     username:string;
 }
 
-export const load = async (url:string):Promise<Track[]> => {
+export const loadUrl = async (url:string):Promise<Track[]> => {
     try {
-        const resource:Resource = SC.resolve(url);
+        const resource:Resource = await sdk.resolve(url);
         const type = resource && resource.kind;
         switch (type) {
-            case 'playlist': return resource.tracks;
-            case 'track': return [resource];
+            case 'playlist': return (resource as Set).tracks;
+            case 'track': return [(resource as Track)];
             default: throw new Error(
                 `Unhandled resource type "${type}", ` +
                 `can only handle tracks, albums, and playlists.`
