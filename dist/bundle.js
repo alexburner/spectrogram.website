@@ -80,7 +80,7 @@ module.exports = React;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-exports.default = function () { return (React.createElement("h1", null, "Hello spectogram world")); };
+exports.default = function () { return (React.createElement("h1", null, "Hello spectrogram world")); };
 
 
 /***/ }),
