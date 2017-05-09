@@ -1,0 +1,19 @@
+{
+  "name": "soundcloud-spectogram",
+  "version": "0.1.1",
+  "description": "An audio spectogram visualization powered by SoundCloud tracks",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexburner/soundcloud-spectogram.git"
+  },
+  "author": "aburner",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/alexburner/soundcloud-spectogram/issues"
+  },
+  "homepage": "https://github.com/alexburner/soundcloud-spectogram#readme"
+}
