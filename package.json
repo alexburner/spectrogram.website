@@ -6,7 +6,7 @@
   "scripts": {
     "build": "webpack",
     "clean": "rm -r dist/*",
-    "serve": "http-server dist",
+    "serve": "http-server dist -o",
     "watch": "webpack --progress --watch"
   },
   "repository": {
