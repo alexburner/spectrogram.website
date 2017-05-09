@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -74,35 +74,21 @@ module.exports = React;
 
 /***/ }),
 /* 1 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(0);
-function App() {
-    return (React.createElement("h1", null, "\u2639"));
-}
-exports.App = App;
-
-
-/***/ }),
-/* 2 */
 /***/ (function(module, exports) {
 
 module.exports = ReactDOM;
 
 /***/ }),
-/* 3 */
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var ReactDOM = __webpack_require__(2);
-var App_1 = __webpack_require__(1);
-ReactDOM.render(React.createElement(App_1.App, null), document.getElementById("app"));
+var ReactDOM = __webpack_require__(1);
+var App = function () { return (React.createElement("h1", null, "Hello spectogram world")); };
+ReactDOM.render(React.createElement(App, null), document.getElementById('app'));
 
 
 /***/ })
