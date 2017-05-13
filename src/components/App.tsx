@@ -14,7 +14,7 @@ loadUrl('https://soundcloud.com/cliffordmusic/sets/originals')
 ;
 
 import Loader from 'src/components/Loader';
-import Tracks from 'src/components/Tracks';
+import Playlist from 'src/components/Playlist';
 import Visualizer from 'src/components/Visualizer';
 
 const WIDTH = 600;
@@ -27,7 +27,7 @@ export default () => (
         width: `${WIDTH + BORDER * 2}px`,
     }}>
         <Visualizer width={WIDTH} height={HEIGHT} border={BORDER} />
-        <Tracks />
+        <Playlist />
         <Loader />
     </div>
 );

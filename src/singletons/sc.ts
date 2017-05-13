@@ -5,24 +5,24 @@ export {sdk};
 export const client_id = 'Z8yVpZ0DJ4FcMwo5kk0bCEPNFfHs6AXJ';
 sdk.initialize({client_id});
 
-export type Resource = Set|Track|User;
+export type SC_Resource = SC_Set|SC_Track|SC_User;
 
-export interface Set {
+export interface SC_Set {
     kind:'playlist';
-    tracks:Track[];
+    tracks:SC_Track[];
 };
 
-export interface Track {
+export interface SC_Track {
     duration:number;
     kind:'track';
     permalink_url:string;
     stream_url:string;
     title:string;
-    user:User;
+    user:SC_User;
     waveform_url:string;
 }
 
-export interface User {
+export interface SC_User {
     avatar_url:string;
     id:number;
     kind:'user';
@@ -30,13 +30,13 @@ export interface User {
     username:string;
 }
 
-export const loadUrl = async (url:string):Promise<Track[]> => {
+export const loadUrl = async (url:string):Promise<SC_Track[]> => {
     try {
-        const resource:Resource = await sdk.resolve(url);
+        const resource:SC_Resource = await sdk.resolve(url);
         const type = resource && resource.kind;
         switch (type) {
-            case 'playlist': return (resource as Set).tracks;
-            case 'track': return [(resource as Track)];
+            case 'playlist': return (resource as SC_Set).tracks;
+            case 'track': return [(resource as SC_Track)];
             default: throw new Error(
                 `Unhandled resource type "${type}", ` +
                 `can only handle tracks, albums, and playlists.`
