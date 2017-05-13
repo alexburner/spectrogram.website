@@ -1,5 +1,13 @@
 import * as React from 'react';
 
+import Loader from 'src/components/Loader';
+import Tracks from 'src/components/Tracks';
+import Visualizer from 'src/components/Visualizer';
+
 export default () => (
-    <h1>Hello spectrogram world</h1>
+    <div>
+        <Visualizer />
+        <Tracks />
+        <Loader />
+    </div>
 );

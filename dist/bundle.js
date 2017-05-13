@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 4);
+/******/ 	return __webpack_require__(__webpack_require__.s = 7);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -80,7 +80,13 @@ module.exports = React;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-exports.default = function () { return (React.createElement("h1", null, "Hello spectrogram world")); };
+var Loader_1 = __webpack_require__(4);
+var Tracks_1 = __webpack_require__(5);
+var Visualizer_1 = __webpack_require__(6);
+exports.default = function () { return (React.createElement("div", null,
+    React.createElement(Visualizer_1.default, null),
+    React.createElement(Tracks_1.default, null),
+    React.createElement(Loader_1.default, null))); };
 
 
 /***/ }),
@@ -126,8 +132,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
-var sdk = __webpack_require__(5);
+var sdk = __webpack_require__(8);
 exports.sdk = sdk;
+exports.default = sdk;
 exports.client_id = 'Z8yVpZ0DJ4FcMwo5kk0bCEPNFfHs6AXJ';
 sdk.initialize({ client_id: exports.client_id });
 ;
@@ -158,7 +165,6 @@ exports.loadUrl = function (url) { return __awaiter(_this, void 0, void 0, funct
         }
     });
 }); };
-exports.default = sdk;
 
 
 /***/ }),
@@ -169,6 +175,99 @@ module.exports = ReactDOM;
 
 /***/ }),
 /* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
+var Loader = (function (_super) {
+    __extends(Loader, _super);
+    function Loader() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    Loader.prototype.render = function () {
+        return (React.createElement("div", null, "Loader"));
+    };
+    return Loader;
+}(React.Component));
+exports.default = Loader;
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
+var Tracks = (function (_super) {
+    __extends(Tracks, _super);
+    function Tracks() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    Tracks.prototype.render = function () {
+        return (React.createElement("div", null, "Tracks"));
+    };
+    return Tracks;
+}(React.Component));
+exports.default = Tracks;
+
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
+var Visualizer = (function (_super) {
+    __extends(Visualizer, _super);
+    function Visualizer() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    Visualizer.prototype.render = function () {
+        return (React.createElement("div", null, "Visualizer"));
+    };
+    return Visualizer;
+}(React.Component));
+exports.default = Visualizer;
+
+
+/***/ }),
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -184,7 +283,7 @@ ReactDOM.render(React.createElement(App_1.default, null), document.getElementByI
 
 
 /***/ }),
-/* 5 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 !function(t,e){if(true)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var n=e();for(var i in n)("object"==typeof exports?exports:t)[i]=n[i]}}(this,function(){return function(t){function e(i){if(n[i])return n[i].exports;var r=n[i]={exports:{},id:i,loaded:!1};return t[i].call(r.exports,r,r.exports,e),r.loaded=!0,r.exports}var n={};return e.m=t,e.c=n,e.p="",e(0)}([function(t,e,n){(function(e){"use strict";var i=n(4),r=n(8),o=n(2),s=n(9),a=n(1).Promise,u=n(15),h=n(16);t.exports=e.SC={initialize:function(){var t=arguments.length<=0||void 0===arguments[0]?{}:arguments[0];o.set("oauth_token",t.oauth_token),o.set("client_id",t.client_id),o.set("redirect_uri",t.redirect_uri),o.set("baseURL",t.baseURL),o.set("connectURL",t.connectURL)},get:function(t,e){return i.request("GET",t,e)},post:function(t,e){return i.request("POST",t,e)},put:function(t,e){return i.request("PUT",t,e)},"delete":function(t){return i.request("DELETE",t)},upload:function(t){return i.upload(t)},connect:function(t){return s(t)},isConnected:function(){return void 0!==o.get("oauth_token")},oEmbed:function(t,e){return i.oEmbed(t,e)},resolve:function(t){return i.resolve(t)},Recorder:u,Promise:a,stream:function(t,e){return h(t,e)},connectCallback:function(){r.notifyDialog(this.location)}}}).call(e,function(){return this}())},function(t,e,n){var i;(function(t,r,o,s){/*!

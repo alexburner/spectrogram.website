@@ -1,7 +1,8 @@
 import * as sdk from 'soundcloud';
+export default sdk;
+export {sdk};
 
 export const client_id = 'Z8yVpZ0DJ4FcMwo5kk0bCEPNFfHs6AXJ';
-
 sdk.initialize({client_id});
 
 export type Resource = Set|Track|User;
@@ -48,6 +49,3 @@ export const loadUrl = async (url:string):Promise<Track[]> => {
         alert(`${prefix}\n\nError = ${message}\n\nURL = ${url}`);
     }
 };
-
-export default sdk;
-export {sdk};
