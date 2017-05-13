@@ -2,9 +2,6 @@ import * as React from 'react';
 
 import {getChannels} from 'src/singletons/audio';
 
-const WIDTH = 600;
-const HEIGHT = 600;
-
 const drawSlice = (
     canvas:HTMLCanvasElement,
     context:CanvasRenderingContext2D,
@@ -63,12 +60,28 @@ const drawSheet = (
     context.putImageData(image, 0, rectHeight);
 };
 
-export default class Visualizer extends React.Component<undefined, undefined> {
+interface Props {
+    width:number,
+    height:number,
+    border:number,
+}
+
+export default class Visualizer extends React.Component<Props, undefined> {
     private sliceCanvas:HTMLCanvasElement;
     private sheetCanvas:HTMLCanvasElement;
     private sliceContext:CanvasRenderingContext2D;
     private sheetContext:CanvasRenderingContext2D;
     private mountSignature:{};
+    private width:number;
+    private height:number;
+    private border:number;
+
+    constructor(props) {
+        super(props);
+        this.width = props.width;
+        this.height = props.height;
+        this.border = props.border;
+    }
 
     animate(mountSignature:{}) {
         if (mountSignature !== this.mountSignature) return;
@@ -82,16 +95,22 @@ export default class Visualizer extends React.Component<undefined, undefined> {
 
     render() {
         return (
-            <div className="visualizer">
+            <div style={{
+                background: '#333',
+                border: 'solid #333',
+                borderWidth: `${this.border + 1}px ${this.border}px`,
+            }}>
                 <canvas
                     ref={el => this.sliceCanvas = el}
-                    height={1 * (HEIGHT / 6)}
-                    width={WIDTH}
+                    style={{display: 'block'}}
+                    height={1 * (this.height / 6)}
+                    width={this.width}
                 />
                 <canvas
                     ref={el => this.sheetCanvas = el}
-                    height={5 * (HEIGHT / 6)}
-                    width={WIDTH}
+                    style={{display: 'block'}}
+                    height={5 * (this.height / 6)}
+                    width={this.width}
                 />
             </div>
         );
