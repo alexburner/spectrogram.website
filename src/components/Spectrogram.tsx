@@ -66,7 +66,7 @@ interface Props {
     border:number,
 }
 
-export default class Visualizer extends React.Component<Props, undefined> {
+export default class Spectrogram extends React.Component<Props, undefined> {
     private sliceCanvas:HTMLCanvasElement;
     private sheetCanvas:HTMLCanvasElement;
     private sliceContext:CanvasRenderingContext2D;

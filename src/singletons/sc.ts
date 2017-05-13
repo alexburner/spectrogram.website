@@ -13,10 +13,16 @@ export interface SC_Set {
 };
 
 export interface SC_Track {
+    artwork_url:string;
+    created_at:string;
     duration:number;
+    genre:string;
+    id:number;
     kind:'track';
+    last_modified:string;
     permalink_url:string;
     stream_url:string;
+    tag_list:string;
     title:string;
     user:SC_User;
     waveform_url:string;

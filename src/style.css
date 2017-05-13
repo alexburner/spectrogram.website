@@ -7,4 +7,54 @@
 html, body {
     width: 100%;
     height: 100%;
+    font-family: sans-serif;
+    font-size: 12px;
+}
+
+.track-table {
+    width: 100%;
+    margin: 2px 0;
+    border-collapse: collapse;
+}
+
+.track-table img {
+    display: block;
+}
+
+.track-table tr {
+    border-bottom: 1px solid #EEE;
+}
+
+.track-table td {
+    padding: 6px 4px;
+    vertical-align: middle;
+}
+
+.track-table td a {
+    text-decoration: none;
+    opacity: 0.7;
+    color: #000;
+}
+
+.track-table td a:hover {
+    opacity: 1;
+}
+
+.track-table .title a:first-child {
+    /* artist link */
+    color: #666;
+}
+
+.track-table .duration a {
+    display: inline-block;
+    padding: 12px 0;
+}
+
+.track-table .duration .material-icons {
+    display: inline;
+    vertical-align: middle;
+    line-height: 12px;
+    font-size: 18px;
+    position: relative;
+    top: -1px; /* hacks */
 }

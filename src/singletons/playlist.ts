@@ -1,15 +1,16 @@
-import {audio} from 'src/singletons/audio';
+import audio from 'src/singletons/audio';
 import {client_id, SC_Track} from 'src/singletons/sc';
 
-interface Track extends SC_Track {
+export interface Track extends SC_Track {
     index:number;
     isPlaying:boolean;
 }
 
-type ChangeListener = {(tracks:Track[]):void};
+export type ChangeListener = {(tracks:Track[]):void};
+
 const listeners:ChangeListener[] = [];
 
-let index = 0;
+let currentIndex = null;
 let tracks:Track[] = [];
 
 const loadTrack = (track:Track) => {
@@ -30,30 +31,35 @@ export const pauseTrack = (index:number) => {
 export const playTrack = (index:number) => {
     const track = tracks[index];
     if (!track) return;
+    if (index !== currentIndex) {
+        pauseTrack(currentIndex);
+        currentIndex = index;
+        loadTrack(track);
+    }
     track.isPlaying = true;
-    loadTrack(track);
     audio.play();
     triggerChange();
 };
 
 export const nextTrack = () => {
-    index++;
-    index %= tracks.length;
-    playTrack(index);
+    currentIndex++;
+    currentIndex %= tracks.length;
+    playTrack(currentIndex);
 };
 
 export const prevTrack = () => {
-    index--;
-    if (index < 0) index = tracks.length - 1;
-    playTrack(index);
+    currentIndex--;
+    if (currentIndex < 0) currentIndex = tracks.length - 1;
+    playTrack(currentIndex);
 };
 
 export const setTracks = (scTracks:SC_Track[]) => {
+    pauseTrack(currentIndex);
+    currentIndex = null;
     tracks = scTracks.map((scTrack, index) => ({
         ...scTrack, index, isPlaying: false,
     }));
-    index = 0;
-    playTrack(index);
+    playTrack(0);
 };
 
 export const getTracks = ():Track[] => {
