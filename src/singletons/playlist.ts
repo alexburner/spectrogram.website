@@ -7,8 +7,9 @@ let tracks:Track[] = [];
 const loadTrack = () => {
     const track = tracks[index];
     if (!track || !track.stream_url) return;
-    audio.src = `${track.stream_url}?client_id=${client_id}`;
     document.title = `${track.title} — Spectrogram`;
+    audio.crossOrigin = 'anonymous';
+    audio.src = `${track.stream_url}?client_id=${client_id}`;
     audio.play();
 };
 

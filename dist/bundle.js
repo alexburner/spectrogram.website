@@ -81,8 +81,16 @@ module.exports = React;
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var sc_1 = __webpack_require__(2);
+var playlist_1 = __webpack_require__(10);
 sc_1.loadUrl('https://soundcloud.com/cliffordmusic/sets/originals')
-    .then(function (tracks) { return console.log(tracks); });
+    .then(function (tracks) {
+    console.log(tracks);
+    playlist_1.setTracks(tracks);
+})
+    .catch(function (e) {
+    console.error(e);
+});
+;
 var Loader_1 = __webpack_require__(4);
 var Tracks_1 = __webpack_require__(5);
 var Visualizer_1 = __webpack_require__(6);
@@ -412,6 +420,44 @@ var getChannels = function () {
 };
 exports.getChannels = getChannels;
 exports.default = audio;
+
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var audio_1 = __webpack_require__(9);
+var sc_1 = __webpack_require__(2);
+var index = 0;
+var tracks = [];
+var loadTrack = function () {
+    var track = tracks[index];
+    if (!track || !track.stream_url)
+        return;
+    document.title = track.title + " \u2014 Spectrogram";
+    audio_1.audio.crossOrigin = 'anonymous';
+    audio_1.audio.src = track.stream_url + "?client_id=" + sc_1.client_id;
+    audio_1.audio.play();
+};
+exports.nextTrack = function () {
+    index++;
+    index %= tracks.length;
+    loadTrack();
+};
+exports.prevTrack = function () {
+    index--;
+    if (index < 0)
+        index = tracks.length - 1;
+    loadTrack();
+};
+exports.setTracks = function (newTracks) {
+    tracks = newTracks;
+    index = 0;
+    loadTrack();
+};
 
 
 /***/ })
