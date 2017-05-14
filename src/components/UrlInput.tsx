@@ -4,23 +4,23 @@ import * as scroll from 'scroll';
 import {fetchTracks} from 'src/singletons/sc';
 import {setTracks, playTrack} from 'src/singletons/playlist';
 
+interface Props {
+    input:string;
+}
+
 interface State {
     input:string;
     isLoading:boolean;
 }
 
-export default class UrlLoader extends React.Component<undefined, State> {
+export default class UrlInput extends React.Component<Props, State> {
     private handleInput:{(e:React.ChangeEvent<HTMLInputElement>):void};
     private handleSubmit:{(e:React.FormEvent<HTMLFormElement>):void};
 
-    constructor() {
-        super();
-        const hash = (
-            window.location.hash.length &&
-            window.location.hash.slice(1)
-        );
+    constructor(props:Props) {
+        super(props);
         this.state = {
-            input: hash && hash.length ? hash : '',
+            input: props.input || '',
             isLoading: false,
         };
         this.handleInput = (e) => {
@@ -29,13 +29,18 @@ export default class UrlLoader extends React.Component<undefined, State> {
         };
         this.handleSubmit = (e) => {
             e.preventDefault();
-            this.load(this.state.input).then((didLoad) => {
-                if (didLoad) playTrack(0);
+            this.fetchUrl(this.state.input).then((didFetch) => {
+                if (didFetch) playTrack(0);
             });
         };
     }
 
-    private load(url=''):Promise<boolean> {
+    componentDidMount() {
+        // fresh mount: fetch URL if we already got one in state
+        if (this.state.input.length) this.fetchUrl(this.state.input);
+    }
+
+    private fetchUrl(url=''):Promise<boolean> {
         return new Promise((resolve) => {
             if (this.state.isLoading) return resolve(false);
             url = url.trim();
@@ -78,10 +83,5 @@ export default class UrlLoader extends React.Component<undefined, State> {
                 }
             </form>
         );
-    }
-
-    componentDidMount() {
-        // did page load with url in hash?
-        if (this.state.input.length) this.load(this.state.input);
     }
 }

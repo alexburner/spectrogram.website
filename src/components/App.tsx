@@ -1,8 +1,9 @@
 import * as React from 'react';
 
 import {togglePlay} from 'src/singletons/playlist';
+import {getHashUrl} from 'src/singletons/util';
 
-import UrlLoader from 'src/components/UrlLoader';
+import UrlInput from 'src/components/UrlInput';
 import TrackTable from 'src/components/TrackTable';
 import Spectrogram from 'src/components/Spectrogram';
 
@@ -11,6 +12,13 @@ const HEIGHT = 600;
 const BORDER = 7;
 
 export default class App extends React.Component<undefined, undefined> {
+    private hashUrl:string;
+
+    constructor() {
+        super();
+        this.hashUrl = getHashUrl();
+    }
+
     render() {
         return (
             <div style={{
@@ -20,7 +28,7 @@ export default class App extends React.Component<undefined, undefined> {
             }}>
                 <Spectrogram width={WIDTH} height={HEIGHT} border={BORDER} />
                 <TrackTable />
-                <UrlLoader />
+                <UrlInput input={this.hashUrl} />
             </div>
         );
     }
