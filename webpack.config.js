@@ -36,6 +36,7 @@ module.exports = {
 	plugins: [
 		new CopyWebpackPlugin([
 			{ from: 'src/CNAME', to: '' },
+			{ from: 'src/favicon.ico', to: '' },
 			{ from: 'src/style.css', to: 'assets/' },
 			{ from: 'node_modules/react/dist/react.min.js', to: 'vendor/' },
 			{ from: 'node_modules/react-dom/dist/react-dom.min.js', to: 'vendor/' },
