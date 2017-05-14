@@ -6,28 +6,28 @@ interface Props {
     track:Track;
 }
 
+const getTimeString = (milliseconds:number):string => {
+    const hNum = Math.floor(milliseconds / 1000 / 60 / 60);
+    const mNum = Math.floor(milliseconds / 1000 / 60 % 60);
+    const sNum = Math.round(milliseconds / 1000 % 60);
+    if (hNum > 0) {
+        const hours = hNum;
+        const minutes = mNum < 10 ? '0' + mNum : mNum;
+        const seconds = sNum < 10 ? '0' + sNum : sNum;
+        return `${hours}:${minutes}:${seconds}`;
+    } else {
+        const minutes = mNum;
+        const seconds = sNum < 10 ? '0' + sNum : sNum;
+        return `${minutes}:${seconds}`;
+    }
+};
+
 const handleClick = (e:React.MouseEvent<HTMLElement>, track:Track) => {
     e.preventDefault();
     track.isPlaying
         ? pauseTrack(track.index)
         : playTrack(track.index);
 }
-
-const getTimeString = (milliseconds:number):string => {
-    const hNum = Math.floor(milliseconds / 1000 / 60 / 60);
-    const mNum = Math.floor(milliseconds / 1000 / 60 % 60);
-    const sNum = Math.round(milliseconds / 1000 % 60);
-    if (hNum > 0) {
-        const hour = hNum;
-        const minute = mNum < 10 ? '0' + mNum : mNum;
-        const second = sNum < 10 ? '0' + sNum : sNum;
-        return `${hour}:${minute}:${second}`;
-    } else {
-        const minute = mNum;
-        const second = sNum < 10 ? '0' + sNum : sNum;
-        return `${minute}:${second}`;
-    }
-};
 
 export default ({track}:Props) => {
     const duration = getTimeString(track.duration);

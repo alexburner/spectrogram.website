@@ -454,27 +454,27 @@ exports.default = Spectrogram;
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var playlist_1 = __webpack_require__(9);
-var handleClick = function (e, track) {
-    e.preventDefault();
-    track.isPlaying
-        ? playlist_1.pauseTrack(track.index)
-        : playlist_1.playTrack(track.index);
-};
 var getTimeString = function (milliseconds) {
     var hNum = Math.floor(milliseconds / 1000 / 60 / 60);
     var mNum = Math.floor(milliseconds / 1000 / 60 % 60);
     var sNum = Math.round(milliseconds / 1000 % 60);
     if (hNum > 0) {
-        var hour = hNum;
-        var minute = mNum < 10 ? '0' + mNum : mNum;
-        var second = sNum < 10 ? '0' + sNum : sNum;
-        return hour + ":" + minute + ":" + second;
+        var hours = hNum;
+        var minutes = mNum < 10 ? '0' + mNum : mNum;
+        var seconds = sNum < 10 ? '0' + sNum : sNum;
+        return hours + ":" + minutes + ":" + seconds;
     }
     else {
-        var minute = mNum;
-        var second = sNum < 10 ? '0' + sNum : sNum;
-        return minute + ":" + second;
+        var minutes = mNum;
+        var seconds = sNum < 10 ? '0' + sNum : sNum;
+        return minutes + ":" + seconds;
     }
+};
+var handleClick = function (e, track) {
+    e.preventDefault();
+    track.isPlaying
+        ? playlist_1.pauseTrack(track.index)
+        : playlist_1.playTrack(track.index);
 };
 exports.default = function (_a) {
     var track = _a.track;
