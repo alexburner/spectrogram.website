@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as scroll from 'scroll';
 
-import {loadUrl} from 'src/singletons/sc';
+import {fetchTracks} from 'src/singletons/sc';
 import {setTracks, playTrack} from 'src/singletons/playlist';
 
 interface State {
@@ -41,7 +41,7 @@ export default class UrlLoader extends React.Component<undefined, State> {
             url = url.trim();
             if (!url.length) return resolve(false);
             this.setState({isLoading: true}, () => {
-                loadUrl(url)
+                fetchTracks(url)
                     .then((tracks) => {
                         window.location.replace(`#${url}`);
                         scroll.top(document.body, 0);
@@ -68,7 +68,7 @@ export default class UrlLoader extends React.Component<undefined, State> {
             >
                 <input
                     type="text"
-                    placeholder="Paste a soundcloud URL (track/album/playlist)..."
+                    placeholder="Paste a soundcloud URL..."
                     onChange={this.handleInput}
                     value={this.state.input}
                 />
