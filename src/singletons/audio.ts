@@ -14,6 +14,7 @@ const analyserR = context.createAnalyser();
 const SIZE = 512;
 analyserL.fftSize = SIZE;
 analyserR.fftSize = SIZE;
+
 source.connect(splitter);
 splitter.connect(analyserL, 0, 0);
 splitter.connect(analyserR, 1, 0);

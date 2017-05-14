@@ -16,9 +16,9 @@ let tracks:Track[] = [];
 
 const loadTrack = (track:Track) => {
     if (!track.stream_url) return;
-    document.title = `${track.title} — spectrogram.party`;
     audio.crossOrigin = 'anonymous';
     audio.src = `${track.stream_url}?client_id=${client_id}`;
+    document.title = `${track.title} — spectrogram.party`;
 };
 
 export const pauseTrack = (index:number) => {
@@ -45,11 +45,8 @@ export const playTrack = (index:number) => {
 };
 
 export const togglePlay = () => {
-    if (currentIndex === null && tracks.length) {
-        // hasn't played anything yet
-        return playTrack(0);
-    }
-    return isPlaying
+    if (currentIndex === null && tracks.length) return playTrack(0);
+    isPlaying
         ? pauseTrack(currentIndex)
         : playTrack(currentIndex);
 }
