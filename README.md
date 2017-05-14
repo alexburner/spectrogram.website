@@ -2,6 +2,9 @@
 
 Audio spectrogram visualization for SoundCloud tracks
 
+Lives here: https://spectrogram.party
+
+
 ## install
 Install npm dependencies
 ```
