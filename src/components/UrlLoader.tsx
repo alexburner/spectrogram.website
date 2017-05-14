@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as scroll from 'scroll';
 
 import {loadUrl} from 'src/singletons/sc';
-import {setTracks} from 'src/singletons/playlist';
+import {setTracks, playTrack} from 'src/singletons/playlist';
 
 interface State {
     input:string;
@@ -29,23 +29,34 @@ export default class UrlLoader extends React.Component<undefined, State> {
         };
         this.handleSubmit = (e) => {
             e.preventDefault();
-            this.load(this.state.input);
+            this.load(this.state.input).then((didLoad) => {
+                if (didLoad) playTrack(0);
+            });
         };
     }
 
-    private load(url='') {
-        url = url.trim();
-        if (!url.length) return;
-        if (this.state.isLoading) return;
-        this.setState({isLoading: true}, () => {
-            loadUrl(url)
-                .then((tracks) => {
-                    window.location.replace(`#${url}`);
-                    scroll.top(document.body, 0);
-                    setTracks(tracks);
-                })
-                .catch((e) => console.error(e))
-                .then(() => this.setState({isLoading: false, input:''}));
+    private load(url=''):Promise<boolean> {
+        return new Promise((resolve) => {
+            if (this.state.isLoading) return resolve(false);
+            url = url.trim();
+            if (!url.length) return resolve(false);
+            this.setState({isLoading: true}, () => {
+                loadUrl(url)
+                    .then((tracks) => {
+                        window.location.replace(`#${url}`);
+                        scroll.top(document.body, 0);
+                        setTracks(tracks);
+                        resolve(true);
+                    })
+                    .catch((e) => {
+                        console.error(e);
+                        resolve(false);
+                    })
+                    .then(() => this.setState({
+                        isLoading: false,
+                        input:''
+                    }));
+            });
         });
     }
 
