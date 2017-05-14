@@ -2,11 +2,6 @@ import * as sdk from 'soundcloud';
 export default sdk;
 export {sdk};
 
-export const client_id = 'Z8yVpZ0DJ4FcMwo5kk0bCEPNFfHs6AXJ';
-sdk.initialize({client_id});
-
-export type SC_Resource = SC_Set|SC_Track|SC_User;
-
 export interface SC_Set {
     kind:'playlist';
     tracks:SC_Track[];
@@ -35,6 +30,11 @@ export interface SC_User {
     permalink_url:string;
     username:string;
 }
+
+export type SC_Resource = SC_Set|SC_Track|SC_User;
+
+export const client_id = 'Z8yVpZ0DJ4FcMwo5kk0bCEPNFfHs6AXJ';
+sdk.initialize({client_id});
 
 export const loadUrl = async (url:string):Promise<SC_Track[]> => {
     try {
