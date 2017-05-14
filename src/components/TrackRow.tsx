@@ -14,9 +14,9 @@ const handleClick = (e, track:Track) => {
 }
 
 export default ({track}:Props) => {
-    const duration = (track.duration / 1000 / 60).toFixed(2).split('.');
-    const minutes = duration[0];
-    const seconds = duration[1];
+    const time = (track.duration / 1000 / 60).toFixed(2).split('.');
+    const minutes = time[0];
+    const seconds = time[1];
     const trackAction = track.isPlaying
         ? 'Pause track'
         : 'Play track';
@@ -43,16 +43,16 @@ export default ({track}:Props) => {
             <td className="title">
                 <a
                     href={track.user.permalink_url}
+                    title="Open artist page"
                     target="_blank"
-                    title={track.user.username}
                 >
                     {track.user.username}
                 </a>
                 &nbsp;&mdash;&nbsp;
                 <a
                     href={track.permalink_url}
+                    title="Open track page"
                     target="_blank"
-                    title={track.title}
                 >
                     {track.title}
                 </a>

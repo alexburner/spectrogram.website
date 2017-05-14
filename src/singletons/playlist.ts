@@ -42,15 +42,15 @@ export const playTrack = (index:number) => {
 };
 
 export const nextTrack = () => {
-    currentIndex++;
-    currentIndex %= tracks.length;
-    playTrack(currentIndex);
+    let newIndex = currentIndex + 1;
+    newIndex %= tracks.length;
+    playTrack(newIndex);
 };
 
 export const prevTrack = () => {
-    currentIndex--;
-    if (currentIndex < 0) currentIndex = tracks.length - 1;
-    playTrack(currentIndex);
+    let newIndex = currentIndex - 1;
+    if (newIndex < 0) newIndex = tracks.length - 1;
+    playTrack(newIndex);
 };
 
 export const setTracks = (scTracks:SC_Track[], silent?:boolean) => {

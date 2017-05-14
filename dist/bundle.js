@@ -320,15 +320,15 @@ exports.playTrack = function (index) {
     triggerChange();
 };
 exports.nextTrack = function () {
-    currentIndex++;
-    currentIndex %= tracks.length;
-    exports.playTrack(currentIndex);
+    var newIndex = currentIndex + 1;
+    newIndex %= tracks.length;
+    exports.playTrack(newIndex);
 };
 exports.prevTrack = function () {
-    currentIndex--;
-    if (currentIndex < 0)
-        currentIndex = tracks.length - 1;
-    exports.playTrack(currentIndex);
+    var newIndex = currentIndex - 1;
+    if (newIndex < 0)
+        newIndex = tracks.length - 1;
+    exports.playTrack(newIndex);
 };
 exports.setTracks = function (scTracks, silent) {
     exports.pauseTrack(currentIndex);
@@ -502,9 +502,9 @@ var handleClick = function (e, track) {
 };
 exports.default = function (_a) {
     var track = _a.track;
-    var duration = (track.duration / 1000 / 60).toFixed(2).split('.');
-    var minutes = duration[0];
-    var seconds = duration[1];
+    var time = (track.duration / 1000 / 60).toFixed(2).split('.');
+    var minutes = time[0];
+    var seconds = time[1];
     var trackAction = track.isPlaying
         ? 'Pause track'
         : 'Play track';
@@ -517,9 +517,9 @@ exports.default = function (_a) {
                 } },
                 React.createElement("img", { src: track.artwork_url, width: "32", height: "32" }))),
         React.createElement("td", { className: "title" },
-            React.createElement("a", { href: track.user.permalink_url, target: "_blank", title: track.user.username }, track.user.username),
+            React.createElement("a", { href: track.user.permalink_url, title: "Open artist page", target: "_blank" }, track.user.username),
             "\u00A0\u2014\u00A0",
-            React.createElement("a", { href: track.permalink_url, target: "_blank", title: track.title }, track.title)),
+            React.createElement("a", { href: track.permalink_url, title: "Open track page", target: "_blank" }, track.title)),
         React.createElement("td", { className: "duration" },
             React.createElement("a", { href: "#", title: trackAction, onClick: function (e) { return handleClick(e, track); } },
                 minutes,
