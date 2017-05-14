@@ -10,6 +10,7 @@ export type ChangeListener = {(tracks:Track[]):void};
 
 const listeners:ChangeListener[] = [];
 
+let isPlaying = false;
 let currentIndex = null;
 let tracks:Track[] = [];
 
@@ -23,6 +24,7 @@ const loadTrack = (track:Track) => {
 export const pauseTrack = (index:number) => {
     const track = tracks[index];
     if (!track) return;
+    isPlaying = false;
     track.isPlaying = false;
     audio.pause();
     triggerChange();
@@ -36,10 +38,21 @@ export const playTrack = (index:number) => {
         currentIndex = index;
         loadTrack(track);
     }
+    isPlaying = true;
     track.isPlaying = true;
     audio.play();
     triggerChange();
 };
+
+export const togglePlay = () => {
+    if (currentIndex === null && tracks.length) {
+        // hasn't played anything yet
+        return playTrack(0);
+    }
+    return isPlaying
+        ? pauseTrack(currentIndex)
+        : playTrack(currentIndex);
+}
 
 export const nextTrack = () => {
     let newIndex = currentIndex + 1;

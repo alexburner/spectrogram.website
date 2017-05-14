@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import {getChannels} from 'src/singletons/audio';
+import {togglePlay} from 'src/singletons/playlist';
 
 const drawSlice = (
     canvas:HTMLCanvasElement,
@@ -95,11 +96,14 @@ export default class Spectrogram extends React.Component<Props, undefined> {
 
     render() {
         return (
-            <div style={{
-                background: '#333',
-                border: 'solid #333',
-                borderWidth: `${this.border + 1}px ${this.border}px`,
-            }}>
+            <div
+                onClick={togglePlay}
+                style={{
+                    background: '#333',
+                    border: 'solid #333',
+                    borderWidth: `${this.border + 1}px ${this.border}px`,
+                }}
+            >
                 <canvas
                     ref={el => this.sliceCanvas = el}
                     style={{display: 'block'}}

@@ -90,6 +90,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var audio_1 = __webpack_require__(2);
 var sc_1 = __webpack_require__(3);
 var listeners = [];
+var isPlaying = false;
 var currentIndex = null;
 var tracks = [];
 var loadTrack = function (track) {
@@ -103,6 +104,7 @@ exports.pauseTrack = function (index) {
     var track = tracks[index];
     if (!track)
         return;
+    isPlaying = false;
     track.isPlaying = false;
     audio_1.default.pause();
     triggerChange();
@@ -116,9 +118,19 @@ exports.playTrack = function (index) {
         currentIndex = index;
         loadTrack(track);
     }
+    isPlaying = true;
     track.isPlaying = true;
     audio_1.default.play();
     triggerChange();
+};
+exports.togglePlay = function () {
+    if (currentIndex === null && tracks.length) {
+        // hasn't played anything yet
+        return exports.playTrack(0);
+    }
+    return isPlaying
+        ? exports.pauseTrack(currentIndex)
+        : exports.playTrack(currentIndex);
 };
 exports.nextTrack = function () {
     var newIndex = currentIndex + 1;
@@ -270,21 +282,54 @@ exports.loadUrl = function (url) { return __awaiter(_this, void 0, void 0, funct
 
 "use strict";
 
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
+var playlist_1 = __webpack_require__(1);
 var UrlLoader_1 = __webpack_require__(9);
 var TrackTable_1 = __webpack_require__(8);
 var Spectrogram_1 = __webpack_require__(6);
 var WIDTH = 600;
 var HEIGHT = 600;
 var BORDER = 7;
-exports.default = function () { return (React.createElement("div", { style: {
-        margin: '24px auto 96px',
-        width: WIDTH + BORDER * 2 + "px",
-    } },
-    React.createElement(Spectrogram_1.default, { width: WIDTH, height: HEIGHT, border: BORDER }),
-    React.createElement(TrackTable_1.default, null),
-    React.createElement(UrlLoader_1.default, null))); };
+var App = (function (_super) {
+    __extends(App, _super);
+    function App() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    App.prototype.render = function () {
+        return (React.createElement("div", { style: {
+                margin: '24px auto 96px',
+                width: WIDTH + BORDER * 2 + "px",
+            } },
+            React.createElement(Spectrogram_1.default, { width: WIDTH, height: HEIGHT, border: BORDER }),
+            React.createElement(TrackTable_1.default, null),
+            React.createElement(UrlLoader_1.default, null)));
+    };
+    App.prototype.componentDidMount = function () {
+        document.addEventListener('keydown', function (e) {
+            switch (e.keyCode) {
+                case 32: {
+                    // spacebar
+                    e.preventDefault();
+                    playlist_1.togglePlay();
+                    break;
+                }
+            }
+        });
+    };
+    return App;
+}(React.Component));
+exports.default = App;
 
 
 /***/ }),
@@ -312,6 +357,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var audio_1 = __webpack_require__(2);
+var playlist_1 = __webpack_require__(1);
 var drawSlice = function (canvas, context, channels) {
     var width = canvas.width;
     var height = canvas.height;
@@ -372,7 +418,7 @@ var Spectrogram = (function (_super) {
     };
     Spectrogram.prototype.render = function () {
         var _this = this;
-        return (React.createElement("div", { style: {
+        return (React.createElement("div", { onClick: playlist_1.togglePlay, style: {
                 background: '#333',
                 border: 'solid #333',
                 borderWidth: this.border + 1 + "px " + this.border + "px",
