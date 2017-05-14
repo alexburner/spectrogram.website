@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack",
-    "clean": "rm -r dist/*",
-    "serve": "http-server dist -o",
+    "clean": "rm -r docs/*",
+    "serve": "http-server docs -o",
     "watch": "webpack --progress --watch"
   },
   "repository": {
