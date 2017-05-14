@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as scroll from 'scroll';
 
 import {loadUrl} from 'src/singletons/sc';
 import {setTracks} from 'src/singletons/playlist';
@@ -40,6 +41,7 @@ export default class UrlLoader extends React.Component<undefined, State> {
             loadUrl(url)
                 .then((tracks) => {
                     window.location.replace(`#${url}`);
+                    scroll.top(document.body, 0);
                     setTracks(tracks);
                 })
                 .catch((e) => console.error(e))
