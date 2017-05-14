@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as scroll from 'scroll';
 
 import {Track, playTrack, pauseTrack} from 'src/singletons/playlist';
 
@@ -24,9 +25,12 @@ const getTimeString = (milliseconds:number):string => {
 
 const handleClick = (e:React.MouseEvent<HTMLElement>, track:Track) => {
     e.preventDefault();
-    track.isPlaying
-        ? pauseTrack(track.index)
-        : playTrack(track.index);
+    if (track.isPlaying) {
+        pauseTrack(track.index);
+    } else {
+        scroll.top(document.body, 0);
+        playTrack(track.index);
+    }
 }
 
 export default ({track}:Props) => {

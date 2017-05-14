@@ -33,6 +33,7 @@
     "@types/react-dom": "15.5.0",
     "react": "15.5.4",
     "react-dom": "15.5.4",
+    "scroll": "2.0.0",
     "soundcloud": "3.1.2"
   }
 }
