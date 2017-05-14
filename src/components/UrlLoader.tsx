@@ -68,7 +68,7 @@ export default class UrlLoader extends React.Component<undefined, State> {
             >
                 <input
                     type="text"
-                    placeholder="Paste a soundcloud track, album, or playlist URL..."
+                    placeholder="Paste a soundcloud URL (track/album/playlist)..."
                     onChange={this.handleInput}
                     value={this.state.input}
                 />
