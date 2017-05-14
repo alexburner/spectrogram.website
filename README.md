@@ -1,4 +1,4 @@
-# soundcloud-spectrogram
+# spectrogram.party
 
 Audio spectrogram visualization for SoundCloud tracks
 

@@ -16,7 +16,7 @@ let tracks:Track[] = [];
 
 const loadTrack = (track:Track) => {
     if (!track.stream_url) return;
-    document.title = `${track.title} — Spectrogram`;
+    document.title = `${track.title} — spectrogram.party`;
     audio.crossOrigin = 'anonymous';
     audio.src = `${track.stream_url}?client_id=${client_id}`;
 };
