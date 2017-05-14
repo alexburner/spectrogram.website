@@ -2,34 +2,38 @@
 
 Audio spectrogram visualization for SoundCloud tracks
 
-Prototype: https://patterns.website/experiments/vanilla/audio/soundcloud.html
-
 ## install
-Installs npm dependencies
+Install npm dependencies
 ```
 npm install
 ```
 
 ## build
-Runs webpack on `src` and produces `docs`
+Run webpack on `src` to generate `docs`
 ```
-npm run build
+npm run build-dev
 ```
 
+Or, with production optimizations
+```
+npm run build-prod
+```
+https://webpack.js.org/guides/production-build/
+
 ## watch
-Runs webpack if any file changes
+Run webpack if any file changes
 ```
 npm run watch
 ```
 
 ## serve
-Starts up `http-server` in `docs`
+Start up `http-server` in `docs` (for local dev)
 ```
 npm run serve
 ```
 
 ## clean
-Removes `docs` directory
+Remove `docs` directory
 ```
 npm run clean
 ```
