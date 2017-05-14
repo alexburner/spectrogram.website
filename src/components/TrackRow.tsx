@@ -13,10 +13,24 @@ const handleClick = (e, track:Track) => {
         : playTrack(track.index);
 }
 
+const getTimeString = (milliseconds:number):string => {
+    const hNum = Math.floor(milliseconds / 1000 / 60 / 60);
+    const mNum = Math.floor(milliseconds / 1000 / 60 % 60);
+    const sNum = Math.round(milliseconds / 1000 % 60);
+    if (hNum > 0) {
+        const hour = hNum;
+        const minute = mNum < 10 ? '0' + mNum : mNum;
+        const second = sNum < 10 ? '0' + sNum : sNum;
+        return `${hour}:${minute}:${second}`;
+    } else {
+        const minute = mNum;
+        const second = sNum < 10 ? '0' + sNum : sNum;
+        return `${minute}:${second}`;
+    }
+};
+
 export default ({track}:Props) => {
-    const time = (track.duration / 1000 / 60).toFixed(2).split('.');
-    const minutes = time[0];
-    const seconds = time[1];
+    const duration = getTimeString(track.duration);
     const trackAction = track.isPlaying
         ? 'Pause track'
         : 'Play track';
@@ -63,7 +77,8 @@ export default ({track}:Props) => {
                     title={trackAction}
                     onClick={(e) => handleClick(e, track)}
                 >
-                    {minutes}:{seconds}&nbsp;
+                    {duration}
+                    &nbsp;
                     <i className="material-icons">
                         {track.isPlaying
                             ? 'pause'

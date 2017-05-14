@@ -500,11 +500,25 @@ var handleClick = function (e, track) {
         ? playlist_1.pauseTrack(track.index)
         : playlist_1.playTrack(track.index);
 };
+var getTimeString = function (milliseconds) {
+    var hNum = Math.floor(milliseconds / 1000 / 60 / 60);
+    var mNum = Math.floor(milliseconds / 1000 / 60 % 60);
+    var sNum = Math.round(milliseconds / 1000 % 60);
+    if (hNum > 0) {
+        var hour = hNum;
+        var minute = mNum < 10 ? '0' + mNum : mNum;
+        var second = sNum < 10 ? '0' + sNum : sNum;
+        return hour + ":" + minute + ":" + second;
+    }
+    else {
+        var minute = mNum;
+        var second = sNum < 10 ? '0' + sNum : sNum;
+        return minute + ":" + second;
+    }
+};
 exports.default = function (_a) {
     var track = _a.track;
-    var time = (track.duration / 1000 / 60).toFixed(2).split('.');
-    var minutes = time[0];
-    var seconds = time[1];
+    var duration = getTimeString(track.duration);
     var trackAction = track.isPlaying
         ? 'Pause track'
         : 'Play track';
@@ -522,9 +536,7 @@ exports.default = function (_a) {
             React.createElement("a", { href: track.permalink_url, title: "Open track page", target: "_blank" }, track.title)),
         React.createElement("td", { className: "duration" },
             React.createElement("a", { href: "#", title: trackAction, onClick: function (e) { return handleClick(e, track); } },
-                minutes,
-                ":",
-                seconds,
+                duration,
                 "\u00A0",
                 React.createElement("i", { className: "material-icons" }, track.isPlaying
                     ? 'pause'
