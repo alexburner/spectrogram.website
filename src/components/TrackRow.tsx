@@ -6,7 +6,7 @@ interface Props {
     track:Track;
 }
 
-const handleClick = (e, track:Track) => {
+const handleClick = (e:React.MouseEvent<HTMLElement>, track:Track) => {
     e.preventDefault();
     track.isPlaying
         ? pauseTrack(track.index)

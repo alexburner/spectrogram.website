@@ -178,7 +178,7 @@ exports.loadUrl = function (url) { return __awaiter(_this, void 0, void 0, funct
                 prefix = "Unable to load resource";
                 message = e_1 && e_1.message || e_1;
                 alert(prefix + "\n\nError = " + message + "\n\nURL = " + url);
-                return [3 /*break*/, 3];
+                throw e_1;
             case 3: return [2 /*return*/];
         }
     });
@@ -193,18 +193,7 @@ exports.loadUrl = function (url) { return __awaiter(_this, void 0, void 0, funct
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var sc_1 = __webpack_require__(2);
-var playlist_1 = __webpack_require__(9);
-sc_1.loadUrl('https://soundcloud.com/cliffordmusic/sets/originals')
-    .then(function (tracks) {
-    console.log(tracks);
-    playlist_1.setTracks(tracks);
-})
-    .catch(function (e) {
-    console.error(e);
-});
-;
-var Loader_1 = __webpack_require__(5);
+var UrlLoader_1 = __webpack_require__(16);
 var TrackTable_1 = __webpack_require__(15);
 var Spectrogram_1 = __webpack_require__(13);
 var WIDTH = 600;
@@ -216,7 +205,7 @@ exports.default = function () { return (React.createElement("div", { style: {
     } },
     React.createElement(Spectrogram_1.default, { width: WIDTH, height: HEIGHT, border: BORDER }),
     React.createElement(TrackTable_1.default, null),
-    React.createElement(Loader_1.default, null))); };
+    React.createElement(UrlLoader_1.default, null))); };
 
 
 /***/ }),
@@ -226,37 +215,7 @@ exports.default = function () { return (React.createElement("div", { style: {
 module.exports = ReactDOM;
 
 /***/ }),
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(0);
-var Loader = (function (_super) {
-    __extends(Loader, _super);
-    function Loader() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    Loader.prototype.render = function () {
-        return (React.createElement("div", null, "Loader"));
-    };
-    return Loader;
-}(React.Component));
-exports.default = Loader;
-
-
-/***/ }),
+/* 5 */,
 /* 6 */,
 /* 7 */,
 /* 8 */
@@ -331,6 +290,7 @@ exports.prevTrack = function () {
     exports.playTrack(newIndex);
 };
 exports.setTracks = function (scTracks, silent) {
+    if (scTracks === void 0) { scTracks = []; }
     exports.pauseTrack(currentIndex);
     currentIndex = null;
     tracks = scTracks.map(function (scTrack, index) { return (__assign({}, scTrack, { index: index, isPlaying: false })); });
@@ -582,6 +542,81 @@ var TrackTable = (function (_super) {
     return TrackTable;
 }(React.Component));
 exports.default = TrackTable;
+
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
+var sc_1 = __webpack_require__(2);
+var playlist_1 = __webpack_require__(9);
+var UrlLoader = (function (_super) {
+    __extends(UrlLoader, _super);
+    function UrlLoader() {
+        var _this = _super.call(this) || this;
+        var hash = (window.location.hash.length &&
+            window.location.hash.slice(1));
+        _this.state = {
+            input: hash && hash.length ? hash : '',
+            isLoading: false,
+        };
+        _this.handleInput = function (e) {
+            e.preventDefault();
+            _this.setState({ input: e.target.value });
+        };
+        _this.handleSubmit = function (e) {
+            e.preventDefault();
+            _this.load(_this.state.input);
+        };
+        return _this;
+    }
+    UrlLoader.prototype.load = function (url) {
+        var _this = this;
+        if (url === void 0) { url = ''; }
+        url = url.trim();
+        if (!url.length)
+            return;
+        if (this.state.isLoading)
+            return;
+        this.setState({ isLoading: true }, function () {
+            sc_1.loadUrl(url)
+                .then(function (tracks) {
+                window.location.replace("#" + url);
+                playlist_1.setTracks(tracks);
+            })
+                .catch(function (e) { return console.error(e); })
+                .then(function () { return _this.setState({ isLoading: false, input: '' }); });
+        });
+    };
+    UrlLoader.prototype.render = function () {
+        return (React.createElement("form", { className: "url-loader", onSubmit: this.handleSubmit },
+            React.createElement("input", { type: "text", placeholder: "Paste a soundcloud URL...", onChange: this.handleInput, value: this.state.input }),
+            this.state.isLoading
+                ? React.createElement("button", { type: "submit", disabled: true }, "Loading...")
+                : React.createElement("button", { type: "submit" }, "Load")));
+    };
+    UrlLoader.prototype.componentDidMount = function () {
+        // did page load with url in hash?
+        if (this.state.input.length)
+            this.load(this.state.input);
+    };
+    return UrlLoader;
+}(React.Component));
+exports.default = UrlLoader;
 
 
 /***/ })

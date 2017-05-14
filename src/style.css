@@ -27,6 +27,10 @@ html, body {
     border-bottom: 1px solid #EEE;
 }
 
+/*.track-table tr:last-child {
+    border-bottom: none;
+}*/
+
 .track-table td {
     padding: 6px 4px;
     vertical-align: middle;
@@ -40,6 +44,10 @@ html, body {
 
 .track-table td a:hover {
     opacity: 1;
+}
+
+.track-table .thumb {
+    width: 42px;
 }
 
 .track-table .title a:first-child {
@@ -63,4 +71,53 @@ html, body {
     font-size: 18px;
     position: relative;
     top: -1px; /* hacks */
+}
+
+.url-loader {
+    height: 24px;
+    margin-top: 18px;
+    position: relative;
+    text-align: center;
+}
+
+.url-loader input,
+.url-loader button {
+    display: block;
+    position: absolute;
+    top: 0;
+    height: 30px;
+    border: 1px solid #DDD;
+    background: white;
+    outline: none;
+}
+
+.url-loader input {
+    left: 0;
+    width: calc(100% - 74px); /* -1px for overlap */
+    line-height: 30px;
+    padding: 0 8px;
+}
+
+.url-loader button {
+    right: 0;
+    width: 75px;
+    line-height: 28px;
+    cursor: pointer;
+    background: #FAFAFA;
+}
+
+.url-loader input:hover,
+.url-loader input:focus,
+.url-loader input:active,
+.url-loader button:hover,
+.url-loader button:focus,
+.url-loader button:active {
+    border-color: #BBB;
+    z-index: 5;
+}
+
+.url-loader button:hover,
+.url-loader button:focus,
+.url-loader button:active {
+    background: #EFEFEF;
 }

@@ -53,5 +53,6 @@ export const loadUrl = async (url:string):Promise<SC_Track[]> => {
         const prefix = `Unable to load resource`;
         const message = e && e.message || e;
         alert(`${prefix}\n\nError = ${message}\n\nURL = ${url}`);
+        throw e;
     }
 };

@@ -1,19 +1,6 @@
 import * as React from 'react';
 
-import {loadUrl} from 'src/singletons/sc';
-import {setTracks} from 'src/singletons/playlist';
-
-loadUrl('https://soundcloud.com/cliffordmusic/sets/originals')
-    .then((tracks) => {
-        console.log(tracks);
-        setTracks(tracks);
-    })
-    .catch((e) => {
-        console.error(e);
-    });
-;
-
-import Loader from 'src/components/Loader';
+import UrlLoader from 'src/components/UrlLoader';
 import TrackTable from 'src/components/TrackTable';
 import Spectrogram from 'src/components/Spectrogram';
 
@@ -28,6 +15,6 @@ export default () => (
     }}>
         <Spectrogram width={WIDTH} height={HEIGHT} border={BORDER} />
         <TrackTable />
-        <Loader />
+        <UrlLoader />
     </div>
 );

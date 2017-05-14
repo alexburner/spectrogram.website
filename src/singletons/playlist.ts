@@ -53,7 +53,7 @@ export const prevTrack = () => {
     playTrack(newIndex);
 };
 
-export const setTracks = (scTracks:SC_Track[], silent?:boolean) => {
+export const setTracks = (scTracks:SC_Track[] = [], silent?:boolean) => {
     pauseTrack(currentIndex);
     currentIndex = null;
     tracks = scTracks.map((scTrack, index) => ({
