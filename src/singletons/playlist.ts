@@ -18,7 +18,7 @@ const loadTrack = (track:Track) => {
     if (!track.stream_url) return;
     audio.crossOrigin = 'anonymous';
     audio.src = `${track.stream_url}?client_id=${client_id}`;
-    document.title = `${track.title} — spectrogram.party`;
+    document.title = `${track.title} — Spectrogram.Party`;
 };
 
 export const pauseTrack = (index:number) => {
