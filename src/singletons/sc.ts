@@ -33,7 +33,7 @@ export interface SC_User {
 
 export type SC_Resource = SC_Set|SC_Track|SC_User;
 
-export const client_id = 'Z8yVpZ0DJ4FcMwo5kk0bCEPNFfHs6AXJ';
+export const client_id = '2t9loNQH90kzJcsFCODdigxfp325aq4z';
 sdk.initialize({client_id});
 
 export const loadUrl = async (url:string):Promise<SC_Track[]> => {
