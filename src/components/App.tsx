@@ -14,7 +14,8 @@ export default class App extends React.Component<undefined, undefined> {
     render() {
         return (
             <div style={{
-                margin: '24px auto 96px',
+                margin: 'auto',
+                padding: '24px 0 96px',
                 width: `${WIDTH + BORDER * 2}px`,
             }}>
                 <Spectrogram width={WIDTH} height={HEIGHT} border={BORDER} />
