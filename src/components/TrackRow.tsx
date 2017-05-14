@@ -35,6 +35,7 @@ const handleClick = (e:React.MouseEvent<HTMLElement>, track:Track) => {
 
 export default ({track}:Props) => {
     const duration = getTimeString(track.duration);
+    const thumbUrl = track.artwork_url || track.user.avatar_url || '';
     const trackAction = track.isPlaying
         ? 'Pause track'
         : 'Play track';
@@ -52,7 +53,7 @@ export default ({track}:Props) => {
                     }}
                 >
                     <img
-                        src={track.artwork_url}
+                        src={thumbUrl}
                         width="32"
                         height="32"
                     />
