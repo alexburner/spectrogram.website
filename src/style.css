@@ -9,6 +9,8 @@ html, body {
     height: 100%;
     font-family: sans-serif;
     font-size: 12px;
+    color: #333;
+    background: #FFF;
 }
 
 .track-table {
@@ -32,8 +34,8 @@ html, body {
 
 .track-table td a {
     text-decoration: none;
-    opacity: 0.7;
-    color: #000;
+    opacity: 0.8;
+    color: #222;
 }
 
 .track-table td a:hover {
@@ -42,7 +44,11 @@ html, body {
 
 .track-table .title a:first-child {
     /* artist link */
-    color: #666;
+    color: #777;
+}
+
+.track-table .duration {
+    text-align: right;
 }
 
 .track-table .duration a {

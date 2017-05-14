@@ -330,11 +330,12 @@ exports.prevTrack = function () {
         currentIndex = tracks.length - 1;
     exports.playTrack(currentIndex);
 };
-exports.setTracks = function (scTracks) {
+exports.setTracks = function (scTracks, silent) {
     exports.pauseTrack(currentIndex);
     currentIndex = null;
     tracks = scTracks.map(function (scTrack, index) { return (__assign({}, scTrack, { index: index, isPlaying: false })); });
-    exports.playTrack(0);
+    if (!silent)
+        triggerChange();
 };
 exports.getTracks = function () {
     return tracks;
@@ -493,32 +494,41 @@ exports.default = Spectrogram;
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var playlist_1 = __webpack_require__(9);
+var handleClick = function (e, track) {
+    e.preventDefault();
+    track.isPlaying
+        ? playlist_1.pauseTrack(track.index)
+        : playlist_1.playTrack(track.index);
+};
 exports.default = function (_a) {
     var track = _a.track;
     var duration = (track.duration / 1000 / 60).toFixed(2).split('.');
     var minutes = duration[0];
     var seconds = duration[1];
+    var trackAction = track.isPlaying
+        ? 'Pause track'
+        : 'Play track';
     return (React.createElement("tr", null,
-        React.createElement("td", null,
-            React.createElement("img", { src: track.artwork_url, width: "32", height: "32" })),
-        React.createElement("td", { className: "title" },
-            React.createElement("a", { href: track.user.permalink_url, target: "_blank" }, track.user.username),
-            "\u00A0\u2014\u00A0",
-            React.createElement("a", { href: track.permalink_url, target: "_blank" }, track.title)),
-        React.createElement("td", { className: "duration" },
-            React.createElement("a", { href: "#", onClick: function (e) {
-                    e.preventDefault();
-                    track.isPlaying
-                        ? playlist_1.pauseTrack(track.index)
-                        : playlist_1.playTrack(track.index);
+        React.createElement("td", { className: "thumb" },
+            React.createElement("a", { href: "#", title: trackAction, onClick: function (e) { return handleClick(e, track); }, style: {
+                    display: 'block',
+                    width: '32px',
+                    height: '32px',
                 } },
+                React.createElement("img", { src: track.artwork_url, width: "32", height: "32" }))),
+        React.createElement("td", { className: "title" },
+            React.createElement("a", { href: track.user.permalink_url, target: "_blank", title: track.user.username }, track.user.username),
+            "\u00A0\u2014\u00A0",
+            React.createElement("a", { href: track.permalink_url, target: "_blank", title: track.title }, track.title)),
+        React.createElement("td", { className: "duration" },
+            React.createElement("a", { href: "#", title: trackAction, onClick: function (e) { return handleClick(e, track); } },
                 minutes,
                 ":",
                 seconds,
                 "\u00A0",
-                track.isPlaying
-                    ? React.createElement("i", { className: "material-icons" }, "pause")
-                    : React.createElement("i", { className: "material-icons" }, "play_arrow")))));
+                React.createElement("i", { className: "material-icons" }, track.isPlaying
+                    ? 'pause'
+                    : 'play_arrow')))));
 };
 
 
