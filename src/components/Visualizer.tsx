@@ -3,7 +3,7 @@ import * as React from 'react';
 import {getChannels} from 'src/singletons/audio';
 import {togglePlay} from 'src/singletons/playlist';
 
-const drawSlice = (
+const drawSpectro = (
     canvas:HTMLCanvasElement,
     context:CanvasRenderingContext2D,
     channels:Uint8Array[]
@@ -21,7 +21,7 @@ const drawSlice = (
             const rectHeight = magnitude * height;
             context.fillStyle = `hsl(${hue}, 64%, 64%)`;
             context.fillRect(
-                index === 0
+                index === 0 // left channel?
                     ? width / 2 - rectWidth * i
                     : width / 2 + rectWidth * i,
                 height - rectHeight,
@@ -32,7 +32,7 @@ const drawSlice = (
     });
 };
 
-const drawSheet = (
+const drawWaterfall = (
     canvas:HTMLCanvasElement,
     context:CanvasRenderingContext2D,
     channels:Uint8Array[]
@@ -49,7 +49,7 @@ const drawSheet = (
             const hue = magnitude * 300;
             context.fillStyle = `hsl(${hue}, 64%, 64%)`;
             context.fillRect(
-                index === 0
+                index === 0 // left channel?
                     ? width / 2 - rectWidth * i
                     : width / 2 + rectWidth * i,
                 0,
@@ -67,12 +67,12 @@ interface Props {
     border:number,
 }
 
-export default class Spectrogram extends React.Component<Props, undefined> {
-    private sliceCanvas:HTMLCanvasElement;
-    private sheetCanvas:HTMLCanvasElement;
-    private sliceContext:CanvasRenderingContext2D;
-    private sheetContext:CanvasRenderingContext2D;
-    private mountSignature:{};
+export default class Visualizer extends React.Component<Props, undefined> {
+    private spectroCanvas:HTMLCanvasElement;
+    private waterfallCanvas:HTMLCanvasElement;
+    private spectroContext:CanvasRenderingContext2D;
+    private waterfallContext:CanvasRenderingContext2D;
+    private mountSignature:{}; // object reference as id
     private width:number;
     private height:number;
     private border:number;
@@ -85,10 +85,11 @@ export default class Spectrogram extends React.Component<Props, undefined> {
     }
 
     animate(mountSignature:{}) {
+        // bail if closure & class signature don't match
         if (mountSignature !== this.mountSignature) return;
         const channels = getChannels();
-        drawSlice(this.sliceCanvas, this.sliceContext, channels);
-        drawSheet(this.sheetCanvas, this.sheetContext, channels);
+        drawSpectro(this.spectroCanvas, this.spectroContext, channels);
+        drawWaterfall(this.waterfallCanvas, this.waterfallContext, channels);
         window.requestAnimationFrame(() => {
             this.animate(mountSignature);
         });
@@ -105,13 +106,13 @@ export default class Spectrogram extends React.Component<Props, undefined> {
                 }}
             >
                 <canvas
-                    ref={el => this.sliceCanvas = el}
+                    ref={el => this.spectroCanvas = el}
                     style={{display: 'block'}}
                     height={1 * (this.height / 6)}
                     width={this.width}
                 />
                 <canvas
-                    ref={el => this.sheetCanvas = el}
+                    ref={el => this.waterfallCanvas = el}
                     style={{display: 'block'}}
                     height={5 * (this.height / 6)}
                     width={this.width}
@@ -122,8 +123,8 @@ export default class Spectrogram extends React.Component<Props, undefined> {
 
     componentDidMount() {
         this.mountSignature = {}; // unique object reference
-        this.sliceContext = this.sliceCanvas.getContext('2d');
-        this.sheetContext = this.sheetCanvas.getContext('2d');
+        this.spectroContext = this.spectroCanvas.getContext('2d');
+        this.waterfallContext = this.waterfallCanvas.getContext('2d');
         this.animate(this.mountSignature);
     }
 

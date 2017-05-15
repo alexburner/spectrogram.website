@@ -3,9 +3,10 @@ import * as React from 'react';
 import {togglePlay} from 'src/singletons/playlist';
 import {getHashUrl} from 'src/singletons/util';
 
-import UrlInput from 'src/components/UrlInput';
+import Footer from 'src/components/Footer';
 import TrackTable from 'src/components/TrackTable';
-import Spectrogram from 'src/components/Spectrogram';
+import UrlLoader from 'src/components/UrlLoader';
+import Visualizer from 'src/components/Visualizer';
 
 const WIDTH = 600;
 const HEIGHT = 600;
@@ -21,14 +22,11 @@ export default class App extends React.Component<undefined, undefined> {
 
     render() {
         return (
-            <div style={{
-                margin: 'auto',
-                padding: '24px 0 96px',
-                width: `${WIDTH + BORDER * 2}px`,
-            }}>
-                <Spectrogram width={WIDTH} height={HEIGHT} border={BORDER} />
+            <div className="app" style={{width: `${WIDTH + BORDER * 2}px`}}>
+                <Visualizer width={WIDTH} height={HEIGHT} border={BORDER} />
                 <TrackTable />
-                <UrlInput input={this.hashUrl} />
+                <UrlLoader input={this.hashUrl} />
+                <Footer />
             </div>
         );
     }

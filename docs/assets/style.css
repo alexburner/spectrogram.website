@@ -13,6 +13,23 @@ html, body {
     background: #FFF;
 }
 
+a {
+    text-decoration: none;
+    opacity: 0.8;
+    color: #222;
+}
+
+a:hover,
+a:active {
+    opacity: 1;
+}
+
+.app {
+    margin: auto;
+    padding: 24px 0 24px;
+    /* width: set in App.tsx */
+}
+
 .track-table {
     width: 100%;
     margin: 2px 0;
@@ -34,16 +51,6 @@ html, body {
 .track-table td {
     padding: 6px 4px;
     vertical-align: middle;
-}
-
-.track-table td a {
-    text-decoration: none;
-    opacity: 0.8;
-    color: #222;
-}
-
-.track-table td a:hover {
-    opacity: 1;
 }
 
 .track-table .thumb {
@@ -120,4 +127,14 @@ html, body {
 .url-loader button:focus,
 .url-loader button:active {
     background: #EFEFEF;
+}
+
+.footer {
+    text-align: center;
+    margin-top: 72px;
+    font-size: 10px;
+}
+
+.footer a {
+    margin: 0 12px;
 }

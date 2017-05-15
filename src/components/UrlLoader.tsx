@@ -13,7 +13,7 @@ interface State {
     isLoading:boolean;
 }
 
-export default class UrlInput extends React.Component<Props, State> {
+export default class UrlLoader extends React.Component<Props, State> {
     private handleInput:{(e:React.ChangeEvent<HTMLInputElement>):void};
     private handleSubmit:{(e:React.FormEvent<HTMLFormElement>):void};
 
@@ -29,7 +29,7 @@ export default class UrlInput extends React.Component<Props, State> {
         };
         this.handleSubmit = (e) => {
             e.preventDefault();
-            this.fetchUrl(this.state.input).then((didFetch) => {
+            this.fetchInput(this.state.input).then((didFetch) => {
                 if (didFetch) playTrack(0);
             });
         };
@@ -37,14 +37,14 @@ export default class UrlInput extends React.Component<Props, State> {
 
     componentDidMount() {
         // fresh mount: fetch URL if we already got one in state
-        if (this.state.input.length) this.fetchUrl(this.state.input);
+        if (this.state.input.length) this.fetchInput(this.state.input);
     }
 
-    private fetchUrl(url=''):Promise<boolean> {
+    private fetchInput(url=''):Promise<boolean> {
+        url = url.trim();
         return new Promise((resolve) => {
-            if (this.state.isLoading) return resolve(false);
-            url = url.trim();
             if (!url.length) return resolve(false);
+            if (this.state.isLoading) return resolve(false);
             this.setState({isLoading: true}, () => {
                 fetchTracks(url)
                     .then((tracks) => {
