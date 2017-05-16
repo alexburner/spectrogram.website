@@ -1,26 +1,27 @@
 import * as React from 'react';
-import * as scroll from 'scroll';
 
 import {fetchTracks} from 'src/singletons/sc';
 import {setTracks, playTrack} from 'src/singletons/playlist';
-
-interface Props {
-    input:string;
-}
+import scroll from 'src/singletons/scroll';
 
 interface State {
     input:string;
     isLoading:boolean;
 }
 
-export default class UrlLoader extends React.Component<Props, State> {
+export default class UrlLoader extends React.Component<undefined, State> {
     private handleInput:{(e:React.ChangeEvent<HTMLInputElement>):void};
     private handleSubmit:{(e:React.FormEvent<HTMLFormElement>):void};
 
-    constructor(props:Props) {
-        super(props);
+    constructor() {
+        super();
+        const hash = (
+            window.location.hash &&
+            window.location.hash.length > 1 &&
+            window.location.hash.slice(1)
+        );
         this.state = {
-            input: props.input || '',
+            input: hash || '',
             isLoading: false,
         };
         this.handleInput = (e) => {
@@ -35,11 +36,6 @@ export default class UrlLoader extends React.Component<Props, State> {
         };
     }
 
-    componentDidMount() {
-        // fresh mount: fetch URL if we already got one in state
-        if (this.state.input.length) this.fetchInput(this.state.input);
-    }
-
     private fetchInput(url=''):Promise<boolean> {
         url = url.trim();
         return new Promise((resolve) => {
@@ -48,8 +44,8 @@ export default class UrlLoader extends React.Component<Props, State> {
             this.setState({isLoading: true}, () => {
                 fetchTracks(url)
                     .then((tracks) => {
+                        scroll();
                         window.location.replace(`#${url}`);
-                        scroll.top(document.body, 0);
                         setTracks(tracks);
                         resolve(true);
                     })
@@ -83,5 +79,10 @@ export default class UrlLoader extends React.Component<Props, State> {
                 }
             </form>
         );
+    }
+
+    componentDidMount() {
+        // fresh mount, fetch URL if we already got one in state
+        if (this.state.input.length) this.fetchInput(this.state.input);
     }
 }

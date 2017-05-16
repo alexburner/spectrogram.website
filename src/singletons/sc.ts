@@ -35,11 +35,20 @@ export const client_id = '2t9loNQH90kzJcsFCODdigxfp325aq4z';
 
 SC.initialize({client_id});
 
+const completeUrl = (url:string):string => {
+    if (!url || !url.length) return '';
+    else if (url.indexOf('https://') === 0) return url;
+    else if (url.indexOf('http://') === 0) return `https://${url.slice(7)}`;
+    else if (url.indexOf('//') === 0) return `https:${url}`;
+    else return `https://${url}`; // hope for the best
+};
+
 const fetchUserTracks = async (user:SC_User):Promise<SC_Track[]> => {
     return await SC.get(`/users/${user.id}/tracks`);
 };
 
 export const fetchTracks = async (url:string):Promise<SC_Track[]> => {
+    url = completeUrl(url);
     try {
         const resource:SC_Resource = await SC.resolve(url);
         const type = resource && resource.kind;
@@ -59,7 +68,7 @@ export const fetchTracks = async (url:string):Promise<SC_Track[]> => {
     catch (e) {
         const prefix = `Unable to load resource`;
         const message = e && e.message || e;
-        alert(`${prefix}\n\nError = ${message}\n\nURL = ${url}`);
+        alert(`${prefix}\n\nURL = ${url}\n\nError = ${message}`);
         throw e;
     }
 };

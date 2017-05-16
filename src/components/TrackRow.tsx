@@ -1,7 +1,7 @@
 import * as React from 'react';
-import * as scroll from 'scroll';
 
 import {Track, playTrack, pauseTrack} from 'src/singletons/playlist';
+import scroll from 'src/singletons/scroll';
 
 interface Props {
     track:Track;
@@ -28,7 +28,7 @@ const handleClick = (e:React.MouseEvent<HTMLElement>, track:Track) => {
     if (track.isPlaying) {
         pauseTrack(track.index);
     } else {
-        scroll.top(document.body, 0);
+        scroll();
         playTrack(track.index);
     }
 }
