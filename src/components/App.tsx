@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import {togglePlay} from 'src/singletons/playlist';
+import {togglePlay, prevTrack, nextTrack} from 'src/singletons/playlist';
 
 import Footer from 'src/components/Footer';
 import TrackTable from 'src/components/TrackTable';
@@ -39,6 +39,20 @@ export default class App extends React.Component<undefined, undefined> {
                     // spacebar
                     e.preventDefault();
                     togglePlay();
+                    break;
+                }
+                case 37: {
+                    // left arrow
+                    if (e.ctrlKey || e.metaKey) return;
+                    e.preventDefault();
+                    prevTrack();
+                    break;
+                }
+                case 39: {
+                    // right arrow
+                    if (e.ctrlKey || e.metaKey) return;
+                    e.preventDefault();
+                    nextTrack();
                     break;
                 }
             }

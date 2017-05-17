@@ -52,12 +52,14 @@ export const togglePlay = () => {
 }
 
 export const nextTrack = () => {
+    if (currentIndex === null) return playTrack(0);
     let newIndex = currentIndex + 1;
     newIndex %= tracks.length;
     playTrack(newIndex);
 };
 
 export const prevTrack = () => {
+    if (currentIndex === null) return playTrack(0);
     let newIndex = currentIndex - 1;
     if (newIndex < 0) newIndex = tracks.length - 1;
     playTrack(newIndex);
