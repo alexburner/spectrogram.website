@@ -1,6 +1,9 @@
 import * as React from 'react';
 
+import * as fullscreen from 'src/singletons/fullscreen';
+
 interface Props {
+    onChange:{(isFullscreen:boolean):void};
     target:HTMLElement;
 }
 
@@ -22,8 +25,8 @@ export default class Fullscreen extends React.Component<Props, State> {
                     e.preventDefault();
                     e.stopPropagation();
                     this.state.isFullscreen
-                        ? exitFullscreen()
-                        : requestFullscreen(this.props.target);
+                        ? fullscreen.exit()
+                        : fullscreen.enter(this.props.target);
                 }}
             >
                 <i className="material-icons">
@@ -37,70 +40,11 @@ export default class Fullscreen extends React.Component<Props, State> {
     }
 
     componentDidMount() {
-        onFullscreenChange(() => {
+        fullscreen.onChange(() => {
             const target = this.props.target;
-            const isFullscreen = checkFullscreen();
-            isFullscreen
-                ? target.style.transform = `scale(${getScale(target)})`
-                : target.style.transform = 'scale(1)';
+            const isFullscreen = fullscreen.check();
+            this.props.onChange(isFullscreen);
             this.setState({isFullscreen});
         });
     }
 }
-
-const checkFullscreen = () => Boolean(
-    document.fullscreenElement ||
-    document['msFullScreenElement'] ||
-    document['mozFullScreenElement'] ||
-    document.webkitFullscreenElement
-);
-
-const exitFullscreen = () => {
-    const exit = (
-        document.exitFullscreen ||
-        document['msExitFullscreen'] ||
-        document['mozCancelFullScreen'] ||
-        document.webkitExitFullscreen
-    );
-    if (exit) exit.call(document);
-};
-
-const requestFullscreen = (element:HTMLElement) => {
-    const request = (
-        element.requestFullscreen ||
-        element['msRequestFullscreen'] ||
-        element['mozRequestFullScreen'] ||
-        element.webkitRequestFullscreen
-    );
-    if (request) request.call(element);
-};
-
-const onFullscreenChange = (listener:{():void}) => {
-    const eventNames = [
-        'fullscreenchange',
-        'msfullscreenchange',
-        'mozfullscreenchange',
-        'webkitfullscreenchange',
-    ];
-    eventNames.some(eventName => {
-        if (document['on' + eventName] !== undefined) {
-            document.addEventListener(eventName, listener);
-            return true; // stop once successful
-        }
-    });
-};
-
-const getScale = (element:HTMLElement):number => {
-    const screenWidth = window.screen.availWidth;
-    const screenHeight = window.screen.availHeight;
-    const rect = element.getBoundingClientRect();
-    const elementWidth = rect.width;
-    const elementHeight = rect.height;
-    const screenRatio = screenWidth / screenHeight;
-    const elementRatio = elementWidth / elementHeight;
-    const targetHeight = screenHeight * 0.95 ;
-    const targetWidth = screenWidth * 0.95 ;
-    return screenRatio > elementRatio
-        ? targetHeight / elementHeight
-        : targetWidth / elementWidth;
-};

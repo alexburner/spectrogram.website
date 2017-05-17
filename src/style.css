@@ -40,7 +40,19 @@ a:active {
 
 .visualizer {
     position: relative;
-    transition: transform 0.5s;
+    background: #333;
+    border: solid #333;
+    /* border-width: set in Visualizer.tsx */
+    /* width: set in Visualizer.tsx */
+    /* height: set in Visualizer.tsx */
+}
+
+.visualizer canvas {
+    display: block;
+    position: relative;
+    top: 50%;
+    margin: auto;
+    transform: perspective(1px) translateY(-50%);
 }
 
 .fullscreen-toggle {
@@ -56,7 +68,7 @@ a:active {
     background: none;
     border: none;
     color: #FFF;
-    opacity: 0.4;
+    opacity: 0.3;
 }
 
 .fullscreen-toggle:hover {
@@ -80,10 +92,6 @@ a:active {
 .track-table tr {
     border-bottom: 1px solid #EEE;
 }
-
-/*.track-table tr:last-child {
-    border-bottom: none;
-}*/
 
 .track-table td {
     padding: 6px 4px;
