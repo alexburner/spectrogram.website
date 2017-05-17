@@ -61,6 +61,7 @@ export default class Visualizer extends React.Component<Props, State> {
             <div
                 ref={(el) => this.container = el}
                 className="visualizer"
+                onClick={togglePlay}
                 style={{
                     width: containerWidth,
                     height: containerHeight,
@@ -72,7 +73,6 @@ export default class Visualizer extends React.Component<Props, State> {
             >
                 <canvas
                     ref={el => this.canvas = el}
-                    onClick={togglePlay}
                     style={{transform: `
                         perspective(1px)
                         translateY(-50%)
