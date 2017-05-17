@@ -1,10 +1,54 @@
 import * as React from 'react';
 
+interface Props {
+    target:HTMLElement;
+}
+
 interface State {
     isFullscreen:boolean;
 }
 
-const isFullscreen = () => Boolean(
+export default class Fullscreen extends React.Component<Props, State> {
+    constructor() {
+        super();
+        this.state = {isFullscreen: false};
+    }
+
+    render() {
+        return (
+            <button
+                className="fullscreen-toggle"
+                onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this.state.isFullscreen
+                        ? exitFullscreen()
+                        : requestFullscreen(this.props.target);
+                }}
+            >
+                <i className="material-icons">
+                    {this.state.isFullscreen
+                        ? 'fullscreen_exit'
+                        : 'fullscreen'
+                    }
+                </i>
+            </button>
+        );
+    }
+
+    componentDidMount() {
+        onFullscreenChange(() => {
+            const target = this.props.target;
+            const isFullscreen = checkFullscreen();
+            isFullscreen
+                ? target.style.transform = `scale(${getScale(target)})`
+                : target.style.transform = 'scale(1)';
+            this.setState({isFullscreen});
+        });
+    }
+}
+
+const checkFullscreen = () => Boolean(
     document.fullscreenElement ||
     document['msFullScreenElement'] ||
     document['mozFullScreenElement'] ||
@@ -46,38 +90,17 @@ const onFullscreenChange = (listener:{():void}) => {
     });
 };
 
-export default class Fullscreen extends React.Component<undefined, State> {
-    private target:HTMLElement;
-
-    constructor() {
-        super();
-        this.state = {isFullscreen: false};
-        this.target = document.getElementById('app');
-    }
-
-    render() {
-        return (
-            <button
-                className="fullscreen-toggle"
-                onClick={() => (
-                    this.state.isFullscreen
-                        ? exitFullscreen()
-                        : requestFullscreen(this.target)
-                )}
-            >
-                <i className="material-icons">
-                    {this.state.isFullscreen
-                        ? 'fullscreen_exit'
-                        : 'fullscreen'
-                    }
-                </i>
-            </button>
-        );
-    }
-
-    componentDidMount() {
-        onFullscreenChange(() => {
-            this.setState({isFullscreen: isFullscreen()});
-        });
-    }
-}
+const getScale = (element:HTMLElement):number => {
+    const screenWidth = window.screen.availWidth;
+    const screenHeight = window.screen.availHeight;
+    const rect = element.getBoundingClientRect();
+    const elementWidth = rect.width;
+    const elementHeight = rect.height;
+    const screenRatio = screenWidth / screenHeight;
+    const elementRatio = elementWidth / elementHeight;
+    const targetHeight = screenHeight * 0.95 ;
+    const targetWidth = screenWidth * 0.95 ;
+    return screenRatio > elementRatio
+        ? targetHeight / elementHeight
+        : targetWidth / elementWidth;
+};

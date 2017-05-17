@@ -3,6 +3,8 @@ import * as React from 'react';
 import {getChannels} from 'src/singletons/audio';
 import {togglePlay} from 'src/singletons/playlist';
 
+import Fullscreen from 'src/components/Fullscreen';
+
 const drawSpectro = (
     canvas:HTMLCanvasElement,
     context:CanvasRenderingContext2D,
@@ -76,6 +78,7 @@ export default class Visualizer extends React.Component<Props, undefined> {
     private width:number;
     private height:number;
     private border:number;
+    private el:HTMLElement;
 
     constructor(props) {
         super(props);
@@ -98,6 +101,8 @@ export default class Visualizer extends React.Component<Props, undefined> {
     render() {
         return (
             <div
+                ref={(el) => this.el = el}
+                className="visualizer"
                 onClick={togglePlay}
                 style={{
                     background: '#333',
@@ -117,11 +122,13 @@ export default class Visualizer extends React.Component<Props, undefined> {
                     height={5 * (this.height / 6)}
                     width={this.width}
                 />
+                {this.el && <Fullscreen target={this.el} />}
             </div>
         );
     }
 
     componentDidMount() {
+        this.forceUpdate(); // render() with ref for Fullscreen
         this.mountSignature = {}; // unique object reference
         this.spectroContext = this.spectroCanvas.getContext('2d');
         this.waterfallContext = this.waterfallCanvas.getContext('2d');

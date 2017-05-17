@@ -38,23 +38,33 @@ a:active {
     /* width: set in App.tsx */
 }
 
+.visualizer {
+    position: relative;
+    transition: transform 0.5s;
+}
+
 .fullscreen-toggle {
-    position: fixed;
-    bottom: 16px;
-    right: 16px;
+    visibility: hidden;
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
+    z-index: 5;
     padding: 2px;
     padding-bottom: 0; /* ??? */
     cursor: pointer;
     outline: none;
     background: none;
     border: none;
-    color: #444;
+    color: #FFF;
+    opacity: 0.4;
 }
 
-.fullscreen-toggle:hover,
-.fullscreen-toggle:active {
-    background: #EFEFEF;
-    color: #000;
+.fullscreen-toggle:hover {
+    opacity: 0.8;
+}
+
+.visualizer:hover .fullscreen-toggle {
+    visibility: visible;
 }
 
 .track-table {
@@ -142,17 +152,14 @@ a:active {
 
 .url-loader input:hover,
 .url-loader input:focus,
-.url-loader input:active,
 .url-loader button:hover,
-.url-loader button:focus,
-.url-loader button:active {
+.url-loader button:focus {
     border-color: #BBB;
     z-index: 5;
 }
 
 .url-loader button:hover,
-.url-loader button:focus,
-.url-loader button:active {
+.url-loader button:focus {
     background: #EFEFEF;
 }
 
