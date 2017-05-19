@@ -11,20 +11,8 @@ Install npm dependencies
 npm install
 ```
 
-## build
-Run webpack on `src` to generate `docs`
-```
-npm run build-dev
-```
-
-Or, with production optimizations
-```
-npm run build-prod
-```
-https://webpack.js.org/guides/production-build/
-
 ## watch
-Run webpack if any file changes
+Run webpack dev build, re-run if `src` changes
 ```
 npm run watch
 ```
@@ -40,3 +28,10 @@ Remove `docs` directory
 ```
 npm run clean
 ```
+
+## prod
+Run webpack build with production optimizations
+```
+npm run prod
+```
+https://webpack.js.org/guides/production-build/
