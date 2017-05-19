@@ -32,11 +32,11 @@ export const spectrogram = ({x, y, width, height, context, channels}:Args) => {
 
 export const waterfall = ({x, y, width, height, context, channels}:Args) => {
     const image = context.getImageData(x, y, width, height);
-    const count = channels[0].length;
-    const rectWidth = width / 2 / count;
+    const rectCount = channels[0].length;
+    const rectWidth = width / 2 / rectCount;
     const rectHeight = rectWidth;
     channels.forEach((channel, index) => {
-        for (let i = 0; i < count; i++) {
+        for (let i = 0; i < rectCount; i++) {
             const magnitude = channel[i] / 255;
             const hue = magnitude * 300;
             context.fillStyle = `hsl(${hue}, 64%, 64%)`;
