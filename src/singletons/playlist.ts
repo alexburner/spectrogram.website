@@ -1,5 +1,5 @@
 import audio from 'src/singletons/audio';
-import {client_id, SC_Track} from 'src/singletons/sc';
+import {client_id, SC_Track} from 'src/singletons/soundcloud';
 
 export interface Track extends SC_Track {
     index:number;

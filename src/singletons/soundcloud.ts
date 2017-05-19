@@ -55,8 +55,8 @@ export const fetchTracks = async (url:string):Promise<SC_Track[]> => {
         const resource:SC_Resource = await SC.resolve(url);
         const type = resource && resource.kind;
         switch (type) {
-            case 'playlist': return (resource as SC_Set).tracks;
             case 'track': return [(resource as SC_Track)];
+            case 'playlist': return (resource as SC_Set).tracks;
             case 'user': return await fetchUserTracks(resource as SC_User);
             default: throw new Error(
                 `Unhandled resource type "${type}", can only handle:\n`

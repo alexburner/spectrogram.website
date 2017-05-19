@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import {fetchTracks} from 'src/singletons/sc';
+import {fetchTracks} from 'src/singletons/soundcloud';
 import {setTracks, playTrack} from 'src/singletons/playlist';
 import scroll from 'src/singletons/scroll';
 
