@@ -40,7 +40,9 @@ const completeUrl = (url:string):string => {
     else if (url.indexOf('https://') === 0) return url;
     else if (url.indexOf('http://') === 0) return `https://${url.slice(7)}`;
     else if (url.indexOf('//') === 0) return `https:${url}`;
-    else return `https://${url}`; // hope for the best
+    else if (url.indexOf('soundcloud.com') === 0) return `https://${url}`;
+    else if (url.indexOf('/') === 0) return `https://soundcloud.com${url}`;
+    else return `https://soundcloud.com/${url}`; // hope for the best
 };
 
 const fetchUserTracks = async (user:SC_User):Promise<SC_Track[]> => {
