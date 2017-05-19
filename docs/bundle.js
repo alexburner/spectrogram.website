@@ -475,59 +475,7 @@ exports.default = function () { return (React.createElement("div", { className: 
 
 
 /***/ }),
-/* 9 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(0);
-var fullscreen = __webpack_require__(3);
-var Fullscreen = (function (_super) {
-    __extends(Fullscreen, _super);
-    function Fullscreen() {
-        var _this = _super.call(this) || this;
-        _this.state = { isFullscreen: false };
-        return _this;
-    }
-    Fullscreen.prototype.render = function () {
-        var _this = this;
-        return (React.createElement("button", { className: "fullscreen-toggle", onClick: function (e) {
-                e.preventDefault();
-                e.stopPropagation();
-                _this.state.isFullscreen
-                    ? fullscreen.exit()
-                    : fullscreen.enter(_this.props.target);
-            } },
-            React.createElement("i", { className: "material-icons" }, this.state.isFullscreen
-                ? 'fullscreen_exit'
-                : 'fullscreen')));
-    };
-    Fullscreen.prototype.componentDidMount = function () {
-        var _this = this;
-        fullscreen.onChange(function () {
-            var target = _this.props.target;
-            var isFullscreen = fullscreen.check();
-            _this.props.onChange(isFullscreen);
-            _this.setState({ isFullscreen: isFullscreen });
-        });
-    };
-    return Fullscreen;
-}(React.Component));
-exports.default = Fullscreen;
-
-
-/***/ }),
+/* 9 */,
 /* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -741,10 +689,10 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var draw = __webpack_require__(15);
+var fullscreen = __webpack_require__(3);
 var audio_1 = __webpack_require__(2);
-var fullscreen_1 = __webpack_require__(3);
 var playlist_1 = __webpack_require__(1);
-var Fullscreen_1 = __webpack_require__(9);
+var FullscreenBtn_1 = __webpack_require__(21);
 var Visualizer = (function (_super) {
     __extends(Visualizer, _super);
     function Visualizer(props) {
@@ -754,14 +702,6 @@ var Visualizer = (function (_super) {
         _this.containerWidth = props.width + props.borderX * 2;
         _this.containerHeight = props.height + props.borderY * 2;
         _this.state = { isFullscreen: false, canvasScale: 1 };
-        _this.onFullscreenChange = function (isFullscreen) {
-            _this.setState({
-                isFullscreen: isFullscreen,
-                canvasScale: isFullscreen
-                    ? fullscreen_1.getScale(_this.canvas, 0.92)
-                    : 1
-            });
-        };
         return _this;
     }
     Visualizer.prototype.render = function () {
@@ -783,13 +723,26 @@ var Visualizer = (function (_super) {
             } },
             React.createElement("canvas", { ref: function (el) { return _this.canvas = el; }, onClick: playlist_1.togglePlay, style: { transform: "\n                        perspective(1px)\n                        translateY(-50%)\n                        scale(" + this.state.canvasScale + ")\n                    " }, height: this.props.height, width: this.props.width }),
             this.container &&
-                React.createElement(Fullscreen_1.default, { onChange: this.onFullscreenChange, target: this.container })));
+                React.createElement(FullscreenBtn_1.default, { target: this.container })));
     };
     Visualizer.prototype.componentDidMount = function () {
-        this.forceUpdate(); // render() with ref for Fullscreen
+        var _this = this;
         this.mountSignature = {}; // unique object reference
         this.canvasCtx = this.canvas.getContext('2d');
         this.animate(this.mountSignature);
+        fullscreen.onChange(function () {
+            var isFullscreen = fullscreen.check();
+            _this.setState({
+                isFullscreen: isFullscreen,
+                canvasScale: isFullscreen
+                    ? fullscreen.getScale(_this.canvas, 0.92)
+                    : 1
+            });
+        });
+        // Force render() again
+        // now with container ref
+        // for <FullscreenBtn />
+        this.forceUpdate();
     };
     Visualizer.prototype.componentWillUnmount = function () {
         this.mountSignature = null; // stops animation loop
@@ -1075,6 +1028,56 @@ try {
 // easier to handle this case. if(!global) { ...}
 
 module.exports = g;
+
+
+/***/ }),
+/* 21 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
+var fullscreen = __webpack_require__(3);
+var FullscreenBtn = (function (_super) {
+    __extends(FullscreenBtn, _super);
+    function FullscreenBtn() {
+        var _this = _super.call(this) || this;
+        _this.state = { isFullscreen: false };
+        return _this;
+    }
+    FullscreenBtn.prototype.render = function () {
+        var _this = this;
+        return (React.createElement("button", { className: "fullscreen-toggle", onClick: function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                _this.state.isFullscreen
+                    ? fullscreen.exit()
+                    : fullscreen.enter(_this.props.target);
+            } },
+            React.createElement("i", { className: "material-icons" }, this.state.isFullscreen
+                ? 'fullscreen_exit'
+                : 'fullscreen')));
+    };
+    FullscreenBtn.prototype.componentDidMount = function () {
+        var _this = this;
+        fullscreen.onChange(function () { return _this.setState({
+            isFullscreen: fullscreen.check()
+        }); });
+    };
+    return FullscreenBtn;
+}(React.Component));
+exports.default = FullscreenBtn;
 
 
 /***/ })

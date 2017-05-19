@@ -1,11 +1,11 @@
 import * as React from 'react';
 
 import * as draw from 'src/singletons/draw';
+import * as fullscreen from 'src/singletons/fullscreen';
 import {getChannels} from 'src/singletons/audio';
-import {getScale} from 'src/singletons/fullscreen';
 import {togglePlay} from 'src/singletons/playlist';
 
-import Fullscreen from 'src/components/Fullscreen';
+import FullscreenBtn from 'src/components/FullscreenBtn';
 
 interface Props {
     width:number,
@@ -20,7 +20,6 @@ interface State {
 }
 
 export default class Visualizer extends React.Component<Props, State> {
-    private onFullscreenChange:{(is:boolean):void};
     private container:HTMLElement;
     private canvas:HTMLCanvasElement;
     private canvasCtx:CanvasRenderingContext2D;
@@ -37,14 +36,6 @@ export default class Visualizer extends React.Component<Props, State> {
         this.containerWidth = props.width + props.borderX * 2;
         this.containerHeight = props.height + props.borderY * 2;
         this.state = {isFullscreen: false, canvasScale: 1};
-        this.onFullscreenChange = (isFullscreen:boolean) => {
-            this.setState({
-                isFullscreen,
-                canvasScale: isFullscreen
-                    ? getScale(this.canvas, 0.92)
-                    : 1
-            });
-        };
     }
 
     render() {
@@ -82,20 +73,29 @@ export default class Visualizer extends React.Component<Props, State> {
                     width={this.props.width}
                 />
                 {this.container &&
-                    <Fullscreen
-                        onChange={this.onFullscreenChange}
-                        target={this.container}
-                    />
+                    <FullscreenBtn target={this.container} />
                 }
             </div>
         );
     }
 
     componentDidMount() {
-        this.forceUpdate(); // render() with ref for Fullscreen
         this.mountSignature = {}; // unique object reference
         this.canvasCtx = this.canvas.getContext('2d');
         this.animate(this.mountSignature);
+        fullscreen.onChange(() => {
+            const isFullscreen = fullscreen.check();
+            this.setState({
+                isFullscreen,
+                canvasScale: isFullscreen
+                    ? fullscreen.getScale(this.canvas, 0.92)
+                    : 1
+            });
+        });
+        // Force render() again
+        // now with container ref
+        // for <FullscreenBtn />
+        this.forceUpdate();
     }
 
     componentWillUnmount() {

@@ -3,7 +3,6 @@ import * as React from 'react';
 import * as fullscreen from 'src/singletons/fullscreen';
 
 interface Props {
-    onChange:{(isFullscreen:boolean):void};
     target:HTMLElement;
 }
 
@@ -11,7 +10,7 @@ interface State {
     isFullscreen:boolean;
 }
 
-export default class Fullscreen extends React.Component<Props, State> {
+export default class FullscreenBtn extends React.Component<Props, State> {
     constructor() {
         super();
         this.state = {isFullscreen: false};
@@ -40,11 +39,8 @@ export default class Fullscreen extends React.Component<Props, State> {
     }
 
     componentDidMount() {
-        fullscreen.onChange(() => {
-            const target = this.props.target;
-            const isFullscreen = fullscreen.check();
-            this.props.onChange(isFullscreen);
-            this.setState({isFullscreen});
-        });
+        fullscreen.onChange(() => this.setState({
+            isFullscreen: fullscreen.check()
+        }));
     }
 }
