@@ -3,6 +3,7 @@ import * as React from 'react';
 import {togglePlay, prevTrack, nextTrack} from 'src/singletons/playlist';
 
 import Footer from 'src/components/Footer';
+import SeekBar from 'src/components/SeekBar';
 import TrackTable from 'src/components/TrackTable';
 import UrlLoader from 'src/components/UrlLoader';
 import Visualizer from 'src/components/Visualizer';
@@ -25,6 +26,7 @@ export default class App extends React.Component<undefined, undefined> {
                     borderX={BORDER_X}
                     borderY={BORDER_Y}
                 />
+                <SeekBar />
                 <TrackTable />
                 <UrlLoader />
                 <Footer />
