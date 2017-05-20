@@ -35,14 +35,15 @@ export const client_id = '2t9loNQH90kzJcsFCODdigxfp325aq4z';
 
 SC.initialize({client_id});
 
-const completeUrl = (url:string):string => {
-    if (!url || !url.length) return '';
-    else if (url.indexOf('https://') === 0) return url;
-    else if (url.indexOf('http://') === 0) return `https://${url.slice(7)}`;
-    else if (url.indexOf('//') === 0) return `https:${url}`;
-    else if (url.indexOf('soundcloud.com') === 0) return `https://${url}`;
-    else if (url.indexOf('/') === 0) return `https://soundcloud.com${url}`;
-    else return `https://soundcloud.com/${url}`; // hope for the best
+const restoreUrl = (uri:string=''):string => {
+    uri = uri.trim().toLowerCase();
+    if (!uri.length)                              return '';
+    else if (uri.indexOf('https://')       === 0) return uri;
+    else if (uri.indexOf('http://')        === 0) return `https://${uri.slice(7)}`;
+    else if (uri.indexOf('//')             === 0) return `https:${uri}`;
+    else if (uri.indexOf('soundcloud.com') === 0) return `https://${uri}`;
+    else if (uri.indexOf('/')              === 0) return `https://soundcloud.com${uri}`;
+    else                                          return `https://soundcloud.com/${uri}`;
 };
 
 const fetchUserTracks = async (user:SC_User):Promise<SC_Track[]> => {
@@ -50,7 +51,7 @@ const fetchUserTracks = async (user:SC_User):Promise<SC_Track[]> => {
 };
 
 export const fetchTracks = async (url:string):Promise<SC_Track[]> => {
-    url = completeUrl(url);
+    url = restoreUrl(url);
     try {
         const resource:SC_Resource = await SC.resolve(url);
         const type = resource && resource.kind;
