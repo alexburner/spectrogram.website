@@ -2,7 +2,7 @@
 
 Audio spectrogram visualization for SoundCloud tracks
 
-Lives here: https://spectrogram.party
+Living at https://spectrogram.party/
 
 
 ## install
@@ -12,7 +12,7 @@ npm install
 ```
 
 ## watch
-Run webpack dev build, re-run if `src` changes
+Run webpack dev build (`src >>> docs`) with watch
 ```
 npm run watch
 ```
@@ -29,9 +29,9 @@ Remove `docs` directory
 npm run clean
 ```
 
-## prod
+## build
 Run webpack build with production optimizations
 ```
-npm run prod
+npm run build
 ```
 https://webpack.js.org/guides/production-build/
