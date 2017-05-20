@@ -102,7 +102,10 @@ export default class SeekBar extends React.Component<undefined, State> {
                                 src={this.state.waveform}
                                 width="100%"
                                 height="100%"
-                                style={{filter: 'brightness(500%)'}}
+                                style={{
+                                    filter: 'brightness(2)',
+                                    transform: 'perspective(1px)',
+                                }}
                             />
                         </div>
                     }

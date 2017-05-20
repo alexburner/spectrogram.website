@@ -1,4 +1,5 @@
 import * as SC from 'soundcloud';
+import {EventEmitter} from 'eventemitter3';
 
 export interface SC_Set {
     kind:'playlist';
@@ -32,8 +33,7 @@ export interface SC_User {
 export type SC_Resource = SC_Set|SC_Track|SC_User;
 
 export const client_id = '2t9loNQH90kzJcsFCODdigxfp325aq4z';
-
-SC.initialize({client_id});
+export const events = new EventEmitter();
 
 const restoreUrl = (uri:string=''):string => {
     uri = uri.trim().toLowerCase();
@@ -53,7 +53,9 @@ const fetchUserTracks = async (user:SC_User):Promise<SC_Track[]> => {
 export const fetchTracks = async (url:string):Promise<SC_Track[]> => {
     url = restoreUrl(url);
     try {
+        events.emit('loadchange', true);
         const resource:SC_Resource = await SC.resolve(url);
+        events.emit('loadchange', false);
         const type = resource && resource.kind;
         switch (type) {
             case 'track': return [(resource as SC_Track)];
@@ -75,3 +77,5 @@ export const fetchTracks = async (url:string):Promise<SC_Track[]> => {
         throw e;
     }
 };
+
+SC.initialize({client_id});

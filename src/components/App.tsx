@@ -1,6 +1,8 @@
 import * as React from 'react';
 
-import {togglePlay, prevTrack, nextTrack} from 'src/singletons/playlist';
+import * as playlist from 'src/singletons/playlist';
+import * as soundcloud from 'src/singletons/soundcloud';
+import scroll from 'src/singletons/scroll';
 
 import Footer from 'src/components/Footer';
 import SeekBar from 'src/components/SeekBar';
@@ -40,24 +42,44 @@ export default class App extends React.Component<undefined, undefined> {
                 case 32: {
                     // spacebar
                     e.preventDefault();
-                    togglePlay();
+                    playlist.togglePlay();
                     break;
                 }
                 case 37: {
                     // left arrow
                     if (e.ctrlKey || e.metaKey) return;
                     e.preventDefault();
-                    prevTrack();
+                    playlist.prevTrack();
                     break;
                 }
                 case 39: {
                     // right arrow
                     if (e.ctrlKey || e.metaKey) return;
                     e.preventDefault();
-                    nextTrack();
+                    playlist.nextTrack();
                     break;
                 }
             }
         });
+        window.addEventListener('hashchange', () => {
+            loadHashTracks().then(() => {
+                playlist.playTrack(0);
+            });
+        });
+        loadHashTracks();
     }
 }
+
+const getLocationHash = ():string => (
+    window.location.hash &&
+    window.location.hash.length > 1 &&
+    window.location.hash.slice(1)
+) || '';
+
+const loadHashTracks = () => {
+    const hash = getLocationHash();
+    return soundcloud.fetchTracks(hash).then((tracks) => {
+        playlist.setTracks(tracks);
+        scroll();
+    });
+};

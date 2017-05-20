@@ -41,6 +41,7 @@ export const setTracks = (scTracks:SC_Track[] = []) => {
         ...scTrack, index, isPlaying: false,
     }));
     events.emit('listchange', tracks);
+    events.emit('trackchange', null);
 };
 
 export const getTracks = ():Track[] => {

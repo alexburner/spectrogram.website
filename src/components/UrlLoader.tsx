@@ -1,8 +1,6 @@
 import * as React from 'react';
 
-import {fetchTracks} from 'src/singletons/soundcloud';
-import {setTracks, playTrack} from 'src/singletons/playlist';
-import scroll from 'src/singletons/scroll';
+import * as soundcloud from 'src/singletons/soundcloud';
 
 interface State {
     input:string;
@@ -16,13 +14,8 @@ export default class UrlLoader extends React.Component<undefined, State> {
 
     constructor() {
         super();
-        const hash = (
-            window.location.hash &&
-            window.location.hash.length > 1 &&
-            window.location.hash.slice(1)
-        );
         this.state = {
-            input: hash || '',
+            input: '',
             isLoading: false,
         };
         this.handleChange = (e) => {
@@ -31,10 +24,10 @@ export default class UrlLoader extends React.Component<undefined, State> {
         };
         this.handleSubmit = (e) => {
             e.preventDefault();
+            const url = this.state.input.trim();
+            window.location.assign(`#${url}`);
+            this.setState({input: ''});
             this.inputEl.blur();
-            this.fetchInput(this.state.input).then((didFetch) => {
-                if (didFetch) playTrack(0);
-            });
         };
     }
 
@@ -60,32 +53,8 @@ export default class UrlLoader extends React.Component<undefined, State> {
     }
 
     componentDidMount() {
-        // fresh mount, fetch URL if we already got one in state
-        if (this.state.input.length) this.fetchInput(this.state.input);
-    }
-
-    private fetchInput(url=''):Promise<boolean> {
-        url = url.trim();
-        return new Promise((resolve) => {
-            if (!url.length) return resolve(false);
-            if (this.state.isLoading) return resolve(false);
-            this.setState({isLoading: true}, () => {
-                fetchTracks(url)
-                    .then((tracks) => {
-                        scroll();
-                        window.location.replace(`#${url}`);
-                        setTracks(tracks);
-                        resolve(true);
-                    })
-                    .catch((e) => {
-                        console.error(e);
-                        resolve(false);
-                    })
-                    .then(() => this.setState({
-                        isLoading: false,
-                        input:''
-                    }));
-            });
+        soundcloud.events.on('loadchange', (isLoading:boolean) => {
+            this.setState({isLoading});
         });
     }
 }
