@@ -41,13 +41,13 @@ export const onChange = (listener:{():void}) => {
 };
 
 export const getScale = (element:HTMLElement, scale:number):number => {
-    const screenWidth = window.screen.width;
-    const screenHeight = window.screen.height;
     const rect = element.getBoundingClientRect();
     const elementWidth = rect.width;
     const elementHeight = rect.height;
-    const screenRatio = screenWidth / screenHeight;
     const elementRatio = elementWidth / elementHeight;
+    const screenWidth = window.screen.width;
+    const screenHeight = window.screen.height;
+    const screenRatio = screenWidth / screenHeight;
     const targetHeight = screenHeight * scale;
     const targetWidth = screenWidth * scale;
     return screenRatio > elementRatio

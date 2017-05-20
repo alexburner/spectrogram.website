@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as throttle from 'lodash.throttle';
 
 import * as playlist from 'src/singletons/playlist';
 
@@ -27,6 +28,9 @@ export default class TrackTable extends React.Component<undefined, State> {
     }
 
     componentDidMount() {
-        playlist.onChange((tracks) => this.setState({tracks}));
+        playlist.events.on('all', throttle(
+            (tracks) => this.setState({tracks}),
+            {leading: false}
+        ));
     }
 }

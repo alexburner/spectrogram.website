@@ -1,3 +1,5 @@
+import {EventEmitter} from 'eventemitter3';
+
 import audio from 'src/singletons/audio';
 import {client_id, SC_Track} from 'src/singletons/soundcloud';
 
@@ -6,28 +8,55 @@ export interface Track extends SC_Track {
     isPlaying:boolean;
 }
 
-export type ChangeListener = {(tracks:Track[]):void};
-
-const listeners:ChangeListener[] = [];
-
-let isPlaying = false;
-let currentIndex = null;
 let tracks:Track[] = [];
+let currentIndex = null;
+let isPlaying = false;
+
+type EventNames = (
+    'playpause'|   // isPlaying:boolean
+    'trackchange'| // track:Track
+    'listchange'|  // tracks:Track[]
+    'all'          // tracks:Track[]
+);
+
+class Events extends EventEmitter {
+    on(event:EventNames, fn:EventEmitter.ListenerFn, context?:any):this {
+        super.on(event, fn, context);
+        return this;
+    }
+
+    emit(event:EventNames, ...args:any[]):boolean {
+        const result = super.emit(event, ...args);
+        if (event !== 'all') this.emit('all', tracks);
+        return result;
+    }
+}
+
+export const events = new Events();
+
+export const setTracks = (scTracks:SC_Track[] = []) => {
+    pauseTrack(currentIndex);
+    currentIndex = null;
+    tracks = scTracks.map((scTrack, index) => ({
+        ...scTrack, index, isPlaying: false,
+    }));
+    events.emit('listchange', tracks);
+};
+
+export const getTracks = ():Track[] => {
+    return tracks;
+};
+
+export const getCurrentTrack = ():Track|undefined => {
+    return tracks[currentIndex];
+};
 
 const loadTrack = (track:Track) => {
     if (!track.stream_url) return;
     audio.crossOrigin = 'anonymous';
     audio.src = `${track.stream_url}?client_id=${client_id}`;
     document.title = `${track.title} — Spectrogram.Party`;
-};
-
-export const pauseTrack = (index:number) => {
-    const track = tracks[index];
-    if (!track) return;
-    isPlaying = false;
-    track.isPlaying = false;
-    audio.pause();
-    triggerChange();
+    events.emit('trackchange', track);
 };
 
 export const playTrack = (index:number) => {
@@ -41,7 +70,16 @@ export const playTrack = (index:number) => {
     isPlaying = true;
     track.isPlaying = true;
     audio.play();
-    triggerChange();
+    events.emit('playpause', true);
+};
+
+export const pauseTrack = (index:number) => {
+    const track = tracks[index];
+    if (!track) return;
+    isPlaying = false;
+    track.isPlaying = false;
+    audio.pause();
+    events.emit('playpause', false);
 };
 
 export const togglePlay = () => {
@@ -63,27 +101,6 @@ export const prevTrack = () => {
     let newIndex = currentIndex - 1;
     if (newIndex < 0) newIndex = tracks.length - 1;
     playTrack(newIndex);
-};
-
-export const setTracks = (scTracks:SC_Track[] = [], silent?:boolean) => {
-    pauseTrack(currentIndex);
-    currentIndex = null;
-    tracks = scTracks.map((scTrack, index) => ({
-        ...scTrack, index, isPlaying: false,
-    }));
-    if (!silent) triggerChange();
-};
-
-export const getTracks = ():Track[] => {
-    return tracks;
-};
-
-export const onChange = (listener:ChangeListener) => {
-    listeners.push(listener);
-};
-
-const triggerChange = () => {
-    listeners.forEach(listener => listener(tracks));
 };
 
 audio.addEventListener('ended', nextTrack);
