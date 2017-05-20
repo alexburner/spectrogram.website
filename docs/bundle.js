@@ -663,12 +663,13 @@ var UrlLoader = (function (_super) {
             input: hash || '',
             isLoading: false,
         };
-        _this.handleInput = function (e) {
+        _this.handleChange = function (e) {
             e.preventDefault();
             _this.setState({ input: e.target.value });
         };
         _this.handleSubmit = function (e) {
             e.preventDefault();
+            _this.inputEl.blur();
             _this.fetchInput(_this.state.input).then(function (didFetch) {
                 if (didFetch)
                     playlist_1.playTrack(0);
@@ -676,6 +677,19 @@ var UrlLoader = (function (_super) {
         };
         return _this;
     }
+    UrlLoader.prototype.render = function () {
+        var _this = this;
+        return (React.createElement("form", { className: "url-loader", onSubmit: this.handleSubmit },
+            React.createElement("input", { ref: function (el) { return _this.inputEl = el; }, type: "text", placeholder: "Paste a soundcloud URL...", onChange: this.handleChange, value: this.state.input }),
+            this.state.isLoading
+                ? React.createElement("button", { type: "submit", disabled: true }, "Loading...")
+                : React.createElement("button", { type: "submit" }, "Load")));
+    };
+    UrlLoader.prototype.componentDidMount = function () {
+        // fresh mount, fetch URL if we already got one in state
+        if (this.state.input.length)
+            this.fetchInput(this.state.input);
+    };
     UrlLoader.prototype.fetchInput = function (url) {
         var _this = this;
         if (url === void 0) { url = ''; }
@@ -703,18 +717,6 @@ var UrlLoader = (function (_super) {
                 }); });
             });
         });
-    };
-    UrlLoader.prototype.render = function () {
-        return (React.createElement("form", { className: "url-loader", onSubmit: this.handleSubmit },
-            React.createElement("input", { type: "text", placeholder: "Paste a soundcloud URL...", onChange: this.handleInput, value: this.state.input }),
-            this.state.isLoading
-                ? React.createElement("button", { type: "submit", disabled: true }, "Loading...")
-                : React.createElement("button", { type: "submit" }, "Load")));
-    };
-    UrlLoader.prototype.componentDidMount = function () {
-        // fresh mount, fetch URL if we already got one in state
-        if (this.state.input.length)
-            this.fetchInput(this.state.input);
     };
     return UrlLoader;
 }(React.Component));

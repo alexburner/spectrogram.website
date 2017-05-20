@@ -10,8 +10,9 @@ interface State {
 }
 
 export default class UrlLoader extends React.Component<undefined, State> {
-    private handleInput:{(e:React.ChangeEvent<HTMLInputElement>):void};
+    private handleChange:{(e:React.ChangeEvent<HTMLInputElement>):void};
     private handleSubmit:{(e:React.FormEvent<HTMLFormElement>):void};
+    private inputEl:HTMLElement;
 
     constructor() {
         super();
@@ -24,16 +25,43 @@ export default class UrlLoader extends React.Component<undefined, State> {
             input: hash || '',
             isLoading: false,
         };
-        this.handleInput = (e) => {
+        this.handleChange = (e) => {
             e.preventDefault();
             this.setState({input: e.target.value});
         };
         this.handleSubmit = (e) => {
             e.preventDefault();
+            this.inputEl.blur();
             this.fetchInput(this.state.input).then((didFetch) => {
                 if (didFetch) playTrack(0);
             });
         };
+    }
+
+    render() {
+        return (
+            <form
+                className="url-loader"
+                onSubmit={this.handleSubmit}
+            >
+                <input
+                    ref={el => this.inputEl = el}
+                    type="text"
+                    placeholder="Paste a soundcloud URL..."
+                    onChange={this.handleChange}
+                    value={this.state.input}
+                />
+                {this.state.isLoading
+                    ? <button type="submit" disabled>Loading...</button>
+                    : <button type="submit">Load</button>
+                }
+            </form>
+        );
+    }
+
+    componentDidMount() {
+        // fresh mount, fetch URL if we already got one in state
+        if (this.state.input.length) this.fetchInput(this.state.input);
     }
 
     private fetchInput(url=''):Promise<boolean> {
@@ -59,30 +87,5 @@ export default class UrlLoader extends React.Component<undefined, State> {
                     }));
             });
         });
-    }
-
-    render() {
-        return (
-            <form
-                className="url-loader"
-                onSubmit={this.handleSubmit}
-            >
-                <input
-                    type="text"
-                    placeholder="Paste a soundcloud URL..."
-                    onChange={this.handleInput}
-                    value={this.state.input}
-                />
-                {this.state.isLoading
-                    ? <button type="submit" disabled>Loading...</button>
-                    : <button type="submit">Load</button>
-                }
-            </form>
-        );
-    }
-
-    componentDidMount() {
-        // fresh mount, fetch URL if we already got one in state
-        if (this.state.input.length) this.fetchInput(this.state.input);
     }
 }
