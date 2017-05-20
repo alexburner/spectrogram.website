@@ -88,7 +88,7 @@ export default class Visualizer extends React.Component<Props, State> {
             this.setState({
                 isFullscreen,
                 canvasScale: isFullscreen
-                    ? fullscreen.getScale(this.canvas, 0.92)
+                    ? fullscreen.getScale(this.canvas, 5/6)
                     : 1
             });
         });

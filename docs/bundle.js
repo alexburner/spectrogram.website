@@ -788,7 +788,7 @@ var Visualizer = (function (_super) {
             _this.setState({
                 isFullscreen: isFullscreen,
                 canvasScale: isFullscreen
-                    ? fullscreen.getScale(_this.canvas, 0.92)
+                    ? fullscreen.getScale(_this.canvas, 5 / 6)
                     : 1
             });
         });
