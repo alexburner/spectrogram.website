@@ -77,7 +77,7 @@ export default class SeekBar extends React.Component<undefined, State> {
                 style={{
                     position: 'relative',
                     height: `${height + thickness}px`,
-                    margin: '12px 6px',
+                    margin: '14px 6px',
                     cursor: 'pointer',
                 }}
             >
@@ -115,15 +115,17 @@ export default class SeekBar extends React.Component<undefined, State> {
                         background: '#000',
                         opacity: 1/2
                     }}></div>
-                    <div style={{
-                        position: 'absolute',
-                        width: `${paddingX * 2 + 1}px`,
-                        height: '100%',
-                        left: `calc(${progress * 100}% - ${paddingX}px)`,
-                        zIndex: 2,
-                        border: `${thickness}px solid #000`,
-                        opacity: 1/2,
-                    }}></div>
+                    {this.state.duration > 0 &&
+                        <div style={{
+                            position: 'absolute',
+                            width: `${paddingX * 2 + 1}px`,
+                            height: '100%',
+                            left: `calc(${progress * 100}% - ${paddingX}px)`,
+                            zIndex: 2,
+                            border: `${thickness}px solid #000`,
+                            opacity: 1/2,
+                        }}></div>
+                    }
                 </div>
             </div>
         );
