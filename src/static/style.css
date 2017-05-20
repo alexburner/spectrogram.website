@@ -90,6 +90,10 @@ a:active {
 }
 
 .track-table tr {
+    border-top: 1px solid #EEE;
+}
+
+.track-table tr:last-child {
     border-bottom: 1px solid #EEE;
 }
 
