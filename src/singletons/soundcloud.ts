@@ -52,6 +52,7 @@ const fetchUserTracks = async (user:SC_User):Promise<SC_Track[]> => {
 
 export const fetchTracks = async (url:string):Promise<SC_Track[]> => {
     url = restoreUrl(url);
+    if (!url.length) return;
     try {
         events.emit('loadchange', true);
         const resource:SC_Resource = await SC.resolve(url);

@@ -70,14 +70,15 @@ export default class App extends React.Component<undefined, undefined> {
     }
 }
 
-const getLocationHash = ():string => (
+const getLocationHash = ():string|void => (
     window.location.hash &&
     window.location.hash.length > 1 &&
     window.location.hash.slice(1)
-) || '';
+);
 
 const loadHashTracks = () => {
     const hash = getLocationHash();
+    if (!hash || !hash.length) return;
     return soundcloud.fetchTracks(hash).then((tracks) => {
         playlist.setTracks(tracks);
         scroll();
