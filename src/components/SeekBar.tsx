@@ -73,10 +73,10 @@ export default class SeekBar extends React.Component<undefined, State> {
             : 0;
         return (
             <div
+                className="seek-bar"
                 onMouseDown={this.onMouseDown}
                 style={{
                     position: 'relative',
-                    height: `${height + thickness}px`,
                     margin: '14px 6px',
                     cursor: 'pointer',
                 }}
@@ -84,7 +84,7 @@ export default class SeekBar extends React.Component<undefined, State> {
                 <div style={{
                     position: 'relative',
                     width: '100%',
-                    height: '100%',
+                    height: `${height + thickness}px`,
                     pointerEvents: 'none',
                 }}>
                     {this.state.waveform &&
@@ -92,9 +92,9 @@ export default class SeekBar extends React.Component<undefined, State> {
                             style={{
                                 position: 'absolute',
                                 top: `${paddingY + thickness}px`,
+                                bottom: `${paddingY + thickness}px`,
                                 left: 0,
                                 right: 0,
-                                bottom: `${paddingY + thickness}px`,
                                 background: '#DDD',
                             }}
                         >
@@ -102,10 +102,7 @@ export default class SeekBar extends React.Component<undefined, State> {
                                 src={this.state.waveform}
                                 width="100%"
                                 height="100%"
-                                style={{
-                                    filter: 'brightness(2)',
-                                    transform: 'perspective(1px)',
-                                }}
+                                style={{filter: 'brightness(2)'}}
                             />
                         </div>
                     }
