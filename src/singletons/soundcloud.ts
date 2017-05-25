@@ -72,6 +72,7 @@ export const fetchTracks = async (url:string):Promise<SC_Track[]> => {
         }
     }
     catch (e) {
+        events.emit('loadchange', false);
         const prefix = `Unable to load resource`;
         const message = e && e.message || e;
         alert(`${prefix}\n\nURL = ${url}\n\nError = ${message}`);

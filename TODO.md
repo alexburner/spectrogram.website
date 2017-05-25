@@ -1,5 +1,5 @@
 
 - track table loading indicator
-- mobile device detection + low res vis
+- mobile device: vis CSS transform & font scaling
 
 

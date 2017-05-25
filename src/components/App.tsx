@@ -11,7 +11,8 @@ import TrackTable from 'src/components/TrackTable';
 import UrlLoader from 'src/components/UrlLoader';
 import Visualizer from 'src/components/Visualizer';
 
-const WIDTH = bowser.mobile ? Math.floor(window.innerWidth * 0.9) : 600;
+// const WIDTH = bowser.mobile ? Math.floor(window.innerWidth * 0.9) : 600;
+const WIDTH = 600;
 const HEIGHT = WIDTH;
 const BORDER_X = 7;
 const BORDER_Y = 8;
