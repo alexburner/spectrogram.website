@@ -39,7 +39,8 @@ export default class App extends React.Component<undefined, undefined> {
     }
 
     componentDidMount() {
-        document.addEventListener('keydown', e => {
+        document.addEventListener('keydown', (e) => {
+            if ((e.target as HTMLElement).tagName.toLowerCase() === 'input') return;
             switch (e.keyCode) {
                 case 32: {
                     // spacebar
