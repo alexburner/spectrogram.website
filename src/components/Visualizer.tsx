@@ -1,3 +1,4 @@
+import * as bowser from 'bowser';
 import * as React from 'react';
 
 import * as draw from 'src/singletons/draw';
@@ -72,7 +73,7 @@ export default class Visualizer extends React.Component<Props, State> {
                     height={this.props.height}
                     width={this.props.width}
                 />
-                {this.container &&
+                {!bowser.mobile && this.container &&
                     <FullscreenBtn target={this.container} />
                 }
             </div>
