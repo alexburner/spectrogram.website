@@ -13,7 +13,7 @@ const splitter = context.createChannelSplitter();
 const analyserL = context.createAnalyser();
 const analyserR = context.createAnalyser();
 
-const SIZE = bowser.mobile ? 256 : 512;
+const SIZE = bowser.mobile ? 128 : 512;
 analyserL.fftSize = SIZE;
 analyserR.fftSize = SIZE;
 

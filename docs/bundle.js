@@ -213,7 +213,7 @@ var source = context.createMediaElementSource(audio);
 var splitter = context.createChannelSplitter();
 var analyserL = context.createAnalyser();
 var analyserR = context.createAnalyser();
-var SIZE = bowser.mobile ? 256 : 512;
+var SIZE = bowser.mobile ? 128 : 512;
 analyserL.fftSize = SIZE;
 analyserR.fftSize = SIZE;
 source.connect(splitter);
