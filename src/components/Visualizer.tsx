@@ -7,6 +7,7 @@ import {getChannels} from 'src/singletons/audio';
 import {togglePlay} from 'src/singletons/playlist';
 
 import FullscreenBtn from 'src/components/FullscreenBtn';
+import Spinner from 'src/components/Spinner';
 
 interface Props {
     width:number,
@@ -76,6 +77,7 @@ export default class Visualizer extends React.Component<Props, State> {
                 {!bowser.mobile && this.container &&
                     <FullscreenBtn target={this.container} />
                 }
+                {/* <Spinner color={{back: '#333', fore: '#FFF'}} /> */}
             </div>
         );
     }
