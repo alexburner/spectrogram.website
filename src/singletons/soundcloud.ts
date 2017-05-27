@@ -53,10 +53,11 @@ const fetchUserTracks = async (user:SC_User):Promise<SC_Track[]> => {
 export const fetchTracks = async (url:string):Promise<SC_Track[]> => {
     url = restoreUrl(url);
     if (!url.length) return;
+    if (url.indexOf('?q=') !== -1) return queryTracks(url);
     try {
         events.emit('loadchange', true);
         const resource:SC_Resource = await SC.resolve(url);
-        events.emit('loadchange', false);
+        setTimeout(() => events.emit('loadchange', false), 1);
         const type = resource && resource.kind;
         switch (type) {
             case 'track': return [(resource as SC_Track)];
@@ -70,12 +71,29 @@ export const fetchTracks = async (url:string):Promise<SC_Track[]> => {
                 + `    - playlists\n`
             );
         }
-    }
-    catch (e) {
-        events.emit('loadchange', false);
-        const prefix = `Unable to load resource`;
+    } catch (e) {
+        const prefix = `Unable to fetch resource`;
         const message = e && e.message || e;
         alert(`${prefix}\n\nURL = ${url}\n\nError = ${message}`);
+        events.emit('loadchange', false);
+        throw e;
+    }
+};
+
+export const queryTracks = async (url:string):Promise<SC_Track[]> => {
+    const q = url.slice(url.indexOf('?q='));
+    try {
+        events.emit('loadchange', true);
+        const tracks = await SC.get('/tracks', {q, limit: 200});
+        setTimeout(() => events.emit('loadchange', false), 1);
+        console.log(tracks);
+        return tracks;
+    } catch (e) {
+        events.emit('loadchange', false);
+        const prefix = `Unable to complete query`;
+        const message = e && e.message || e;
+        alert(`${prefix}\n\Query = ${q}\n\nError = ${message}`);
+        events.emit('loadchange', false);
         throw e;
     }
 };
