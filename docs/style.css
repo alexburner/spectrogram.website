@@ -227,3 +227,10 @@ a:active {
   -o-animation: rotating 2s linear infinite;
   animation: rotating 2s linear infinite;
 }
+
+.material-icons {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
