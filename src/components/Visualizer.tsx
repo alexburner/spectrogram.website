@@ -3,7 +3,8 @@ import * as React from 'react';
 
 import * as draw from 'src/singletons/draw';
 import * as fullscreen from 'src/singletons/fullscreen';
-import {getChannels} from 'src/singletons/audio';
+import * as sc from 'src/singletons/sc';
+import {audio, getChannels} from 'src/singletons/audio';
 import {togglePlay} from 'src/singletons/playlist';
 
 import FullscreenBtn from 'src/components/FullscreenBtn';
@@ -18,6 +19,8 @@ interface Props {
 
 interface State {
     isFullscreen:boolean;
+    isAudioLoading:boolean;
+    isScLoading:boolean;
     canvasScale:number;
 }
 
@@ -37,7 +40,12 @@ export default class Visualizer extends React.Component<Props, State> {
         this.lowerHeight = 5 * (props.height / 6);
         this.containerWidth = props.width + props.borderX * 2;
         this.containerHeight = props.height + props.borderY * 2;
-        this.state = {isFullscreen: false, canvasScale: 1};
+        this.state = {
+            isFullscreen: false,
+            isAudioLoading: false,
+            isScLoading:false,
+            canvasScale: 1,
+        };
     }
 
     render() {
@@ -77,7 +85,12 @@ export default class Visualizer extends React.Component<Props, State> {
                 {!bowser.mobile && this.container &&
                     <FullscreenBtn target={this.container} />
                 }
-                {/* <Spinner color={{back: '#333', fore: '#FFF'}} /> */}
+                {(this.state.isAudioLoading || this.state.isScLoading) &&
+                    <Spinner color={{
+                        back: '#333',
+                        fore: '#FFF',
+                    }} />
+                }
             </div>
         );
     }
@@ -94,6 +107,15 @@ export default class Visualizer extends React.Component<Props, State> {
                     ? fullscreen.getScale(this.canvas, 5/6)
                     : 1
             });
+        });
+        audio.addEventListener('loadstart', () => {
+            this.setState({isAudioLoading: true});
+        });
+        audio.addEventListener('canplay', () => {
+            this.setState({isAudioLoading: false});
+        });
+        sc.events.on('loadchange', (isScLoading:boolean) => {
+            this.setState({isScLoading});
         });
         // Force render() again
         // now with container ref

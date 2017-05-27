@@ -5,7 +5,7 @@ interface Props {
         back:string;
         fore:string;
     };
-    opacity:number;
+    opacity?:number;
 }
 
 export default ({color, opacity=0.8}:Props) => (
