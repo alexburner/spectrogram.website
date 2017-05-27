@@ -1,7 +1,7 @@
 import {EventEmitter} from 'eventemitter3';
 
 import audio from 'src/singletons/audio';
-import {client_id, SC_Track} from 'src/singletons/soundcloud';
+import {client_id, SC_Track} from 'src/singletons/sc';
 
 export interface Track extends SC_Track {
     index:number;

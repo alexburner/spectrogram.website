@@ -1,13 +1,13 @@
 import * as React from 'react';
 
 import * as playlist from 'src/singletons/playlist';
-import * as soundcloud from 'src/singletons/soundcloud';
+import * as sc from 'src/singletons/sc';
 import scroll from 'src/singletons/scroll';
 
 import Footer from 'src/components/Footer';
 import SeekBar from 'src/components/SeekBar';
 import TrackTable from 'src/components/TrackTable';
-import UrlLoader from 'src/components/UrlLoader';
+import FetchUrl from 'src/components/FetchUrl';
 import Visualizer from 'src/components/Visualizer';
 
 const WIDTH = 600;
@@ -30,7 +30,7 @@ export default class App extends React.Component<undefined, undefined> {
                 />
                 <SeekBar />
                 <TrackTable />
-                <UrlLoader />
+                <FetchUrl />
                 <Footer />
             </div>
         );
@@ -80,7 +80,7 @@ const getLocationHash = ():string|void => (
 const loadHashTracks = () => {
     const hash = getLocationHash();
     if (!hash || !hash.length) return;
-    return soundcloud.fetchTracks(hash).then((tracks) => {
+    return sc.fetchTracks(hash).then((tracks) => {
         playlist.setTracks(tracks);
         scroll();
     });

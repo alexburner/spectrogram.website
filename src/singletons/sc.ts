@@ -35,15 +35,15 @@ export type SC_Resource = SC_Set|SC_Track|SC_User;
 export const client_id = '2t9loNQH90kzJcsFCODdigxfp325aq4z';
 export const events = new EventEmitter();
 
-const restoreUrl = (uri:string=''):string => {
-    uri = uri.trim().toLowerCase();
-    if (!uri.length)                              return '';
-    else if (uri.indexOf('https://')       === 0) return uri;
-    else if (uri.indexOf('http://')        === 0) return `https://${uri.slice(7)}`;
-    else if (uri.indexOf('//')             === 0) return `https:${uri}`;
-    else if (uri.indexOf('soundcloud.com') === 0) return `https://${uri}`;
-    else if (uri.indexOf('/')              === 0) return `https://soundcloud.com${uri}`;
-    else                                          return `https://soundcloud.com/${uri}`;
+const restoreUrl = (url:string=''):string => {
+    url = url.trim().toLowerCase();
+    if (!url.length)                              return '';
+    else if (url.indexOf('https://')       === 0) return url;
+    else if (url.indexOf('http://')        === 0) return `https://${url.slice(7)}`;
+    else if (url.indexOf('//')             === 0) return `https:${url}`;
+    else if (url.indexOf('soundcloud.com') === 0) return `https://${url}`;
+    else if (url.indexOf('/')              === 0) return `https://soundcloud.com${url}`;
+    else                                          return `https://soundcloud.com/${url}`;
 };
 
 const fetchUserTracks = async (user:SC_User):Promise<SC_Track[]> => {

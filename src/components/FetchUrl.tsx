@@ -1,13 +1,13 @@
 import * as React from 'react';
 
-import * as soundcloud from 'src/singletons/soundcloud';
+import * as sc from 'src/singletons/sc';
 
 interface State {
     input:string;
     isLoading:boolean;
 }
 
-export default class UrlLoader extends React.Component<undefined, State> {
+export default class FetchUrl extends React.Component<undefined, State> {
     private handleChange:{(e:React.ChangeEvent<HTMLInputElement>):void};
     private handleSubmit:{(e:React.FormEvent<HTMLFormElement>):void};
     private inputEl:HTMLElement;
@@ -53,7 +53,7 @@ export default class UrlLoader extends React.Component<undefined, State> {
     }
 
     componentDidMount() {
-        soundcloud.events.on('loadchange', (isLoading:boolean) => {
+        sc.events.on('loadchange', (isLoading:boolean) => {
             this.setState({isLoading});
         });
     }

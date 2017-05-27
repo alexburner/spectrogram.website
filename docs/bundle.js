@@ -99,7 +99,7 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var eventemitter3_1 = __webpack_require__(7);
 var audio_1 = __webpack_require__(2);
-var soundcloud_1 = __webpack_require__(3);
+var sc_1 = __webpack_require__(26);
 var tracks = [];
 var currentIndex = null;
 var isPlaying = false;
@@ -143,7 +143,7 @@ var loadTrack = function (track) {
     if (!track.stream_url)
         return;
     audio_1.default.crossOrigin = 'anonymous';
-    audio_1.default.src = track.stream_url + "?client_id=" + soundcloud_1.client_id;
+    audio_1.default.src = track.stream_url + "?client_id=" + sc_1.client_id;
     document.title = track.title + " \u2014 Spectrogram.Party";
     exports.events.emit('trackchange', track);
 };
@@ -232,158 +232,7 @@ exports.default = audio;
 
 
 /***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [0, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-};
-var _this = this;
-Object.defineProperty(exports, "__esModule", { value: true });
-var SC = __webpack_require__(24);
-var eventemitter3_1 = __webpack_require__(7);
-;
-exports.client_id = '2t9loNQH90kzJcsFCODdigxfp325aq4z';
-exports.events = new eventemitter3_1.EventEmitter();
-var restoreUrl = function (uri) {
-    if (uri === void 0) { uri = ''; }
-    uri = uri.trim().toLowerCase();
-    if (!uri.length)
-        return '';
-    else if (uri.indexOf('https://') === 0)
-        return uri;
-    else if (uri.indexOf('http://') === 0)
-        return "https://" + uri.slice(7);
-    else if (uri.indexOf('//') === 0)
-        return "https:" + uri;
-    else if (uri.indexOf('soundcloud.com') === 0)
-        return "https://" + uri;
-    else if (uri.indexOf('/') === 0)
-        return "https://soundcloud.com" + uri;
-    else
-        return "https://soundcloud.com/" + uri;
-};
-var fetchUserTracks = function (user) { return __awaiter(_this, void 0, void 0, function () {
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, SC.get("/users/" + user.id + "/tracks")];
-            case 1: return [2 /*return*/, _a.sent()];
-        }
-    });
-}); };
-exports.fetchTracks = function (url) { return __awaiter(_this, void 0, void 0, function () {
-    var resource, type, _a, e_1, prefix, message;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
-            case 0:
-                url = restoreUrl(url);
-                if (!url.length)
-                    return [2 /*return*/];
-                if (url.indexOf('?q=') !== -1)
-                    return [2 /*return*/, exports.queryTracks(url)];
-                _b.label = 1;
-            case 1:
-                _b.trys.push([1, 9, , 10]);
-                exports.events.emit('loadchange', true);
-                return [4 /*yield*/, SC.resolve(url)];
-            case 2:
-                resource = _b.sent();
-                setTimeout(function () { return exports.events.emit('loadchange', false); }, 1);
-                type = resource && resource.kind;
-                _a = type;
-                switch (_a) {
-                    case 'track': return [3 /*break*/, 3];
-                    case 'playlist': return [3 /*break*/, 4];
-                    case 'user': return [3 /*break*/, 5];
-                }
-                return [3 /*break*/, 7];
-            case 3: return [2 /*return*/, [resource]];
-            case 4: return [2 /*return*/, resource.tracks];
-            case 5: return [4 /*yield*/, fetchUserTracks(resource)];
-            case 6: return [2 /*return*/, _b.sent()];
-            case 7: throw new Error("Unhandled resource type \"" + type + "\", can only handle:\n"
-                + "    - tracks\n"
-                + "    - albums\n"
-                + "    - artists\n"
-                + "    - playlists\n");
-            case 8: return [3 /*break*/, 10];
-            case 9:
-                e_1 = _b.sent();
-                prefix = "Unable to fetch resource";
-                message = e_1 && e_1.message || e_1;
-                alert(prefix + "\n\nURL = " + url + "\n\nError = " + message);
-                exports.events.emit('loadchange', false);
-                throw e_1;
-            case 10: return [2 /*return*/];
-        }
-    });
-}); };
-exports.queryTracks = function (url) { return __awaiter(_this, void 0, void 0, function () {
-    var q, tracks, e_2, prefix, message;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                q = url.slice(url.indexOf('?q='));
-                _a.label = 1;
-            case 1:
-                _a.trys.push([1, 3, , 4]);
-                exports.events.emit('loadchange', true);
-                return [4 /*yield*/, SC.get('/tracks', { q: q, limit: 200 })];
-            case 2:
-                tracks = _a.sent();
-                setTimeout(function () { return exports.events.emit('loadchange', false); }, 1);
-                console.log(tracks);
-                return [2 /*return*/, tracks];
-            case 3:
-                e_2 = _a.sent();
-                exports.events.emit('loadchange', false);
-                prefix = "Unable to complete query";
-                message = e_2 && e_2.message || e_2;
-                alert(prefix + "\nQuery = " + q + "\n\nError = " + message);
-                exports.events.emit('loadchange', false);
-                throw e_2;
-            case 4: return [2 /*return*/];
-        }
-    });
-}); };
-SC.initialize({ client_id: exports.client_id });
-
-
-/***/ }),
+/* 3 */,
 /* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1869,12 +1718,12 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var playlist = __webpack_require__(1);
-var soundcloud = __webpack_require__(3);
+var sc = __webpack_require__(26);
 var scroll_1 = __webpack_require__(5);
 var Footer_1 = __webpack_require__(12);
 var SeekBar_1 = __webpack_require__(14);
 var TrackTable_1 = __webpack_require__(16);
-var UrlLoader_1 = __webpack_require__(17);
+var FetchUrl_1 = __webpack_require__(27);
 var Visualizer_1 = __webpack_require__(18);
 var WIDTH = 600;
 var HEIGHT = WIDTH;
@@ -1890,7 +1739,7 @@ var App = (function (_super) {
             React.createElement(Visualizer_1.default, { width: WIDTH, height: HEIGHT, borderX: BORDER_X, borderY: BORDER_Y }),
             React.createElement(SeekBar_1.default, null),
             React.createElement(TrackTable_1.default, null),
-            React.createElement(UrlLoader_1.default, null),
+            React.createElement(FetchUrl_1.default, null),
             React.createElement(Footer_1.default, null)));
     };
     App.prototype.componentDidMount = function () {
@@ -1939,7 +1788,7 @@ var loadHashTracks = function () {
     var hash = getLocationHash();
     if (!hash || !hash.length)
         return;
-    return soundcloud.fetchTracks(hash).then(function (tracks) {
+    return sc.fetchTracks(hash).then(function (tracks) {
         playlist.setTracks(tracks);
         scroll_1.default();
     });
@@ -2275,65 +2124,7 @@ exports.default = TrackTable;
 
 
 /***/ }),
-/* 17 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(0);
-var soundcloud = __webpack_require__(3);
-var UrlLoader = (function (_super) {
-    __extends(UrlLoader, _super);
-    function UrlLoader() {
-        var _this = _super.call(this) || this;
-        _this.state = {
-            input: '',
-            isLoading: false,
-        };
-        _this.handleChange = function (e) {
-            e.preventDefault();
-            _this.setState({ input: e.target.value });
-        };
-        _this.handleSubmit = function (e) {
-            e.preventDefault();
-            var url = _this.state.input.trim();
-            window.location.assign("#" + url);
-            _this.setState({ input: '' });
-            _this.inputEl.blur();
-        };
-        return _this;
-    }
-    UrlLoader.prototype.render = function () {
-        var _this = this;
-        return (React.createElement("form", { className: "url-loader", onSubmit: this.handleSubmit },
-            React.createElement("input", { ref: function (el) { return _this.inputEl = el; }, type: "text", placeholder: "Paste a soundcloud URL...", onChange: this.handleChange, value: this.state.input }),
-            this.state.isLoading
-                ? React.createElement("button", { type: "submit", disabled: true }, "Loading...")
-                : React.createElement("button", { type: "submit" }, "Load")));
-    };
-    UrlLoader.prototype.componentDidMount = function () {
-        var _this = this;
-        soundcloud.events.on('loadchange', function (isLoading) {
-            _this.setState({ isLoading: isLoading });
-        });
-    };
-    return UrlLoader;
-}(React.Component));
-exports.default = UrlLoader;
-
-
-/***/ }),
+/* 17 */,
 /* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2674,6 +2465,217 @@ var i=t.exports=n(4),r=Array.prototype.slice;i.extend({Deferred:function(t){var 
 module.exports = function() {
 	throw new Error("define cannot be used indirect");
 };
+
+
+/***/ }),
+/* 26 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [0, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
+var _this = this;
+Object.defineProperty(exports, "__esModule", { value: true });
+var SC = __webpack_require__(24);
+var eventemitter3_1 = __webpack_require__(7);
+;
+exports.client_id = '2t9loNQH90kzJcsFCODdigxfp325aq4z';
+exports.events = new eventemitter3_1.EventEmitter();
+var restoreUrl = function (url) {
+    if (url === void 0) { url = ''; }
+    url = url.trim().toLowerCase();
+    if (!url.length)
+        return '';
+    else if (url.indexOf('https://') === 0)
+        return url;
+    else if (url.indexOf('http://') === 0)
+        return "https://" + url.slice(7);
+    else if (url.indexOf('//') === 0)
+        return "https:" + url;
+    else if (url.indexOf('soundcloud.com') === 0)
+        return "https://" + url;
+    else if (url.indexOf('/') === 0)
+        return "https://soundcloud.com" + url;
+    else
+        return "https://soundcloud.com/" + url;
+};
+var fetchUserTracks = function (user) { return __awaiter(_this, void 0, void 0, function () {
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, SC.get("/users/" + user.id + "/tracks")];
+            case 1: return [2 /*return*/, _a.sent()];
+        }
+    });
+}); };
+exports.fetchTracks = function (url) { return __awaiter(_this, void 0, void 0, function () {
+    var resource, type, _a, e_1, prefix, message;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                url = restoreUrl(url);
+                if (!url.length)
+                    return [2 /*return*/];
+                if (url.indexOf('?q=') !== -1)
+                    return [2 /*return*/, exports.queryTracks(url)];
+                _b.label = 1;
+            case 1:
+                _b.trys.push([1, 9, , 10]);
+                exports.events.emit('loadchange', true);
+                return [4 /*yield*/, SC.resolve(url)];
+            case 2:
+                resource = _b.sent();
+                setTimeout(function () { return exports.events.emit('loadchange', false); }, 1);
+                type = resource && resource.kind;
+                _a = type;
+                switch (_a) {
+                    case 'track': return [3 /*break*/, 3];
+                    case 'playlist': return [3 /*break*/, 4];
+                    case 'user': return [3 /*break*/, 5];
+                }
+                return [3 /*break*/, 7];
+            case 3: return [2 /*return*/, [resource]];
+            case 4: return [2 /*return*/, resource.tracks];
+            case 5: return [4 /*yield*/, fetchUserTracks(resource)];
+            case 6: return [2 /*return*/, _b.sent()];
+            case 7: throw new Error("Unhandled resource type \"" + type + "\", can only handle:\n"
+                + "    - tracks\n"
+                + "    - albums\n"
+                + "    - artists\n"
+                + "    - playlists\n");
+            case 8: return [3 /*break*/, 10];
+            case 9:
+                e_1 = _b.sent();
+                prefix = "Unable to fetch resource";
+                message = e_1 && e_1.message || e_1;
+                alert(prefix + "\n\nURL = " + url + "\n\nError = " + message);
+                exports.events.emit('loadchange', false);
+                throw e_1;
+            case 10: return [2 /*return*/];
+        }
+    });
+}); };
+exports.queryTracks = function (url) { return __awaiter(_this, void 0, void 0, function () {
+    var q, tracks, e_2, prefix, message;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                q = url.slice(url.indexOf('?q='));
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 3, , 4]);
+                exports.events.emit('loadchange', true);
+                return [4 /*yield*/, SC.get('/tracks', { q: q, limit: 200 })];
+            case 2:
+                tracks = _a.sent();
+                setTimeout(function () { return exports.events.emit('loadchange', false); }, 1);
+                console.log(tracks);
+                return [2 /*return*/, tracks];
+            case 3:
+                e_2 = _a.sent();
+                exports.events.emit('loadchange', false);
+                prefix = "Unable to complete query";
+                message = e_2 && e_2.message || e_2;
+                alert(prefix + "\nQuery = " + q + "\n\nError = " + message);
+                exports.events.emit('loadchange', false);
+                throw e_2;
+            case 4: return [2 /*return*/];
+        }
+    });
+}); };
+SC.initialize({ client_id: exports.client_id });
+
+
+/***/ }),
+/* 27 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(0);
+var sc = __webpack_require__(26);
+var FetchUrl = (function (_super) {
+    __extends(FetchUrl, _super);
+    function FetchUrl() {
+        var _this = _super.call(this) || this;
+        _this.state = {
+            input: '',
+            isLoading: false,
+        };
+        _this.handleChange = function (e) {
+            e.preventDefault();
+            _this.setState({ input: e.target.value });
+        };
+        _this.handleSubmit = function (e) {
+            e.preventDefault();
+            var url = _this.state.input.trim();
+            window.location.assign("#" + url);
+            _this.setState({ input: '' });
+            _this.inputEl.blur();
+        };
+        return _this;
+    }
+    FetchUrl.prototype.render = function () {
+        var _this = this;
+        return (React.createElement("form", { className: "url-loader", onSubmit: this.handleSubmit },
+            React.createElement("input", { ref: function (el) { return _this.inputEl = el; }, type: "text", placeholder: "Paste a soundcloud URL...", onChange: this.handleChange, value: this.state.input }),
+            this.state.isLoading
+                ? React.createElement("button", { type: "submit", disabled: true }, "Loading...")
+                : React.createElement("button", { type: "submit" }, "Load")));
+    };
+    FetchUrl.prototype.componentDidMount = function () {
+        var _this = this;
+        sc.events.on('loadchange', function (isLoading) {
+            _this.setState({ isLoading: isLoading });
+        });
+    };
+    return FetchUrl;
+}(React.Component));
+exports.default = FetchUrl;
 
 
 /***/ })
