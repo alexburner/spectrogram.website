@@ -45,8 +45,8 @@ export default class FetchUrl extends React.Component<undefined, State> {
                     value={this.state.input}
                 />
                 {this.state.isLoading
-                    ? <button type="submit" disabled>Loading...</button>
-                    : <button type="submit">Load</button>
+                    ? <button type="submit" disabled>Fetching...</button>
+                    : <button type="submit">Fetch</button>
                 }
             </form>
         );
