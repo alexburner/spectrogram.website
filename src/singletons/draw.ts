@@ -19,7 +19,7 @@ export const spectrogram = ({x, y, width, height, context, channels}:Args) => {
             const rectHeight = magnitude * height;
             context.fillStyle = `hsl(${hue}, 64%, 64%)`;
             context.fillRect(
-                index === 0 // left channel?
+                index === 0
                     ? x + width / 2 - rectWidth * i
                     : x + width / 2 + rectWidth * i,
                 y + height - rectHeight,
