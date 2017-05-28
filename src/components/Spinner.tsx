@@ -35,7 +35,7 @@ export default ({color={}, opacity=1}:Props) => (
                     fontSize: '64px',
                     color: color.fore || 'white',
                 }}
-            >cached</i>
+            >sync</i>
         </div>
     </div>
 );

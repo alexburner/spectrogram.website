@@ -29,8 +29,7 @@ export default class TrackTable extends React.Component<undefined, State> {
 
     componentDidMount() {
         playlist.events.on('all', throttle(
-            (tracks) => this.setState({tracks}),
-            {leading: false}
+            (tracks) => this.setState({tracks}), 10, {leading: false}
         ));
     }
 }

@@ -57,12 +57,12 @@ export const fetchTracks = async (url:string=''):Promise<SC_Track[]> => {
     try {
         events.emit('loadchange', true);
         const resource:SC_Resource = await SC.resolve(url);
-        setTimeout(() => events.emit('loadchange', false), 1);
         const type = resource && resource.kind;
+        let tracks:SC_Track[];
         switch (type) {
-            case 'track': return [(resource as SC_Track)];
-            case 'playlist': return (resource as SC_Set).tracks;
-            case 'user': return await fetchUserTracks(resource as SC_User);
+            case 'track': tracks = [(resource as SC_Track)]; break;
+            case 'playlist': tracks = (resource as SC_Set).tracks; break;
+            case 'user': tracks = await fetchUserTracks(resource as SC_User); break;
             default: throw new Error(
                 `Unhandled resource type "${type}", can only handle:\n`
                 + `    - tracks\n`
@@ -71,6 +71,8 @@ export const fetchTracks = async (url:string=''):Promise<SC_Track[]> => {
                 + `    - playlists\n`
             );
         }
+        setTimeout(() => events.emit('loadchange', false), 10);
+        return tracks;
     } catch (e) {
         const prefix = `Unable to fetch resource`;
         const message = e && e.message || e;
