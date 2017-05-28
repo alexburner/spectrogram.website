@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import * as playlist from 'src/singletons/playlist';
 import * as sc from 'src/singletons/sc';
-import scroll from 'src/singletons/scroll';
+import * as scroll from 'src/singletons/scroll';
 
 import Footer from 'src/components/Footer';
 import SeekBar from 'src/components/SeekBar';
@@ -65,23 +65,21 @@ export default class App extends React.Component<undefined, undefined> {
         window.addEventListener('hashchange', () => {
             loadHashTracks().then(() => {
                 playlist.playTrack(0);
+                scroll.toTop();
             });
         });
+        // initial page load
         loadHashTracks();
     }
 }
 
-const getLocationHash = ():string|void => (
-    window.location.hash &&
-    window.location.hash.length > 1 &&
-    window.location.hash.slice(1)
-);
-
 const loadHashTracks = () => {
-    const hash = getLocationHash();
-    if (!hash || !hash.length) return;
+    const hash = (
+        window.location.hash &&
+        window.location.hash.length > 1 &&
+        window.location.hash.slice(1)
+    );
     return sc.fetchTracks(hash).then((tracks) => {
         playlist.setTracks(tracks);
-        scroll();
     });
 };

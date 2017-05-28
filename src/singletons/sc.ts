@@ -50,7 +50,7 @@ const fetchUserTracks = async (user:SC_User):Promise<SC_Track[]> => {
     return await SC.get(`/users/${user.id}/tracks`);
 };
 
-export const fetchTracks = async (url:string):Promise<SC_Track[]> => {
+export const fetchTracks = async (url:string=''):Promise<SC_Track[]> => {
     url = restoreUrl(url);
     if (!url.length) return;
     if (url.indexOf('?q=') !== -1) return queryTracks(url);
