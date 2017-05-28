@@ -86,10 +86,7 @@ export default class Visualizer extends React.Component<Props, State> {
                     <FullscreenBtn target={this.container} />
                 }
                 {(this.state.isAudioLoading || this.state.isScLoading) &&
-                    <Spinner color={{
-                        back: '#333',
-                        fore: '#FFF',
-                    }} />
+                    <Spinner />
                 }
             </div>
         );

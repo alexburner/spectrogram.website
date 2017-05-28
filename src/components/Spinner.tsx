@@ -1,14 +1,14 @@
 import * as React from 'react';
 
 interface Props {
-    color:{
-        back:string;
-        fore:string;
+    color?:{
+        back?:string;
+        fore?:string;
     };
     opacity?:number;
 }
 
-export default ({color, opacity=0.8}:Props) => (
+export default ({color={}, opacity=1}:Props) => (
     <div style={{
         position: 'absolute',
         top: 0,
@@ -16,7 +16,7 @@ export default ({color, opacity=0.8}:Props) => (
         right: 0,
         bottom: 0,
         zIndex: 10,
-        backgroundColor: color.back,
+        backgroundColor: color.back || 'transparent',
         opacity: opacity,
     }}>
         <div style={{
@@ -33,7 +33,7 @@ export default ({color, opacity=0.8}:Props) => (
                 className="material-icons rotating"
                 style={{
                     fontSize: '64px',
-                    color: color.fore,
+                    color: color.fore || 'white',
                 }}
             >cached</i>
         </div>
