@@ -1,3 +1,4 @@
+import * as bowser from 'bowser';
 import * as React from 'react';
 
 import * as playlist from 'src/singletons/playlist';

@@ -41,7 +41,7 @@ export const setTracks = (scTracks:SC_Track[] = []) => {
         ...scTrack, index, isPlaying: false,
     }));
     events.emit('listchange', tracks);
-    events.emit('trackchange', null);
+    loadTrack(tracks[0]);
 };
 
 export const getTracks = ():Track[] => {
@@ -53,7 +53,7 @@ export const getCurrentTrack = ():Track|undefined => {
 };
 
 const loadTrack = (track:Track) => {
-    if (!track.stream_url) return;
+    if (!track || !track.stream_url) return;
     audio.crossOrigin = 'anonymous';
     audio.src = `${track.stream_url}?client_id=${client_id}`;
     document.title = `${track.title} — Spectrogram.Party`;
