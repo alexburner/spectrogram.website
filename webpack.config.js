@@ -35,15 +35,16 @@ module.exports = {
 
 	plugins: [
 		new CopyWebpackPlugin([
-			{ from: 'src/static/CNAME', to: '' },
+			{ from: 'src/static/', to: '' },
+			/*{ from: 'src/static/CNAME', to: '' },
 			{ from: 'src/static/favicon.ico', to: '' },
-			{ from: 'src/static/style.css', to: '' },
+			{ from: 'src/static/style.css', to: '' },*/
 			{ from: 'node_modules/react/dist/react.min.js', to: 'vendor/' },
 			{ from: 'node_modules/react-dom/dist/react-dom.min.js', to: 'vendor/' },
 		]),
 		new HtmlWebpackPlugin({
 			filename: 'index.html',
-			template: 'src/static/index.html',
+			template: 'src/index.html',
 		}),
 		new HtmlWebpackIncludeAssetsPlugin({
 			assets: [
