@@ -36,11 +36,8 @@ module.exports = {
 	plugins: [
 		new CopyWebpackPlugin([
 			{ from: 'src/static/', to: '' },
-			/*{ from: 'src/static/CNAME', to: '' },
-			{ from: 'src/static/favicon.ico', to: '' },
-			{ from: 'src/static/style.css', to: '' },*/
-			{ from: 'node_modules/react/dist/react.min.js', to: 'vendor/' },
-			{ from: 'node_modules/react-dom/dist/react-dom.min.js', to: 'vendor/' },
+			{ from: 'node_modules/react/dist/react.min.js', to: '' },
+			{ from: 'node_modules/react-dom/dist/react-dom.min.js', to: '' },
 		]),
 		new HtmlWebpackPlugin({
 			filename: 'index.html',
@@ -49,8 +46,8 @@ module.exports = {
 		new HtmlWebpackIncludeAssetsPlugin({
 			assets: [
 				'style.css',
-				'vendor/react.min.js',
-				'vendor/react-dom.min.js',
+				'react.min.js',
+				'react-dom.min.js',
 			],
 			append: false, // prepend
 		})
