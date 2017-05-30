@@ -46,7 +46,7 @@ module.exports = {
 		new HtmlWebpackIncludeAssetsPlugin({
 			assets: ['style.css'],
 			append: false, // prepend
-			hash: true, // cache busting
+			// hash: true, // cache busting // doesn't work with gh-pages ???
 		}),
 		new HtmlWebpackIncludeAssetsPlugin({
 			assets: ['react.min.js', 'react-dom.min.js'],
