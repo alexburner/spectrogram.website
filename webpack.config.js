@@ -6,7 +6,7 @@ module.exports = {
 
 	entry: './src/index.tsx',
 	output: {
-		filename: 'bundle.js',
+		filename: 'bundle.[hash].js',
 		path: path.resolve(__dirname, 'docs'),
 	},
 
@@ -19,7 +19,7 @@ module.exports = {
 		// Add node_modules and project directory for absolute paths
 		modules: [
 	        path.resolve(__dirname),
-	        'node_modules'
+	        'node_modules',
 	    ],
 	},
 
@@ -30,7 +30,7 @@ module.exports = {
 
 			// All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
 			{ enforce: 'pre', test: /\.js$/, loader: 'source-map-loader' },
-		]
+		],
 	},
 
 	plugins: [
@@ -44,13 +44,14 @@ module.exports = {
 			template: 'src/index.html',
 		}),
 		new HtmlWebpackIncludeAssetsPlugin({
-			assets: [
-				'style.css',
-				'react.min.js',
-				'react-dom.min.js',
-			],
+			assets: ['style.css'],
 			append: false, // prepend
-		})
+			hash: true, // cache busting
+		}),
+		new HtmlWebpackIncludeAssetsPlugin({
+			assets: ['react.min.js', 'react-dom.min.js'],
+			append: false, // prepend
+		}),
 	],
 
 	// When importing a module whose path matches one of the following, just

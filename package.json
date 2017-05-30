@@ -4,7 +4,7 @@
   "description": "Audio spectrogram visualization for SoundCloud tracks",
   "main": "index.js",
   "scripts": {
-    "build": "rm -r docs/* && webpack -p",
+    "build": "rm -rf docs/* && webpack -p",
     "serve": "http-server docs -o",
     "watch": "webpack --progress --watch"
   },
