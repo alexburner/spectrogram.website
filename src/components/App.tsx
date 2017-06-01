@@ -1,3 +1,4 @@
+import * as bowser from 'bowser';
 import * as React from 'react';
 
 import * as playlist from 'src/singletons/playlist';
@@ -69,7 +70,9 @@ export default class App extends React.Component<undefined, undefined> {
             });
         });
         // initial page load
-        loadHashTracks();
+        loadHashTracks().then(() => {
+            if (!bowser.mobile) playlist.playTrack(0);
+        });
     }
 }
 
