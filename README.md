@@ -4,17 +4,10 @@ Audio spectrogram visualization for SoundCloud tracks
 
 Living at https://spectrogram.party/
 
-
 ## install
 Install npm dependencies
 ```
 npm install
-```
-
-## watch
-Run webpack dev build (`src >> docs`) and re-run on changes
-```
-npm run watch
 ```
 
 ## serve
@@ -24,9 +17,14 @@ npm run serve
 ```
 https://github.com/indexzero/http-server
 
+## watch
+Run webpack dev build (`src >> docs`) and re-run on changes
+```
+npm run watch
+```
 
 ## build
-Remove docs, run webpack build with production optimizations
+Clean out `docs` + run webpack build with production optimizations
 ```
 npm run build
 ```
