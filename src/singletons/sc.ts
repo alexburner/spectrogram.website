@@ -38,11 +38,11 @@ export const events = new EventEmitter();
 const restoreUrl = (url:string=''):string => {
     url = url.trim().toLowerCase();
     if (!url.length)                              return '';
-    else if (url.indexOf('https://')       === 0) return url;
-    else if (url.indexOf('http://')        === 0) return `https://${url.slice(7)}`;
-    else if (url.indexOf('//')             === 0) return `https:${url}`;
-    else if (url.indexOf('soundcloud.com') === 0) return `https://${url}`;
-    else if (url.indexOf('/')              === 0) return `https://soundcloud.com${url}`;
+    else if (0 === url.indexOf('https://'))       return url;
+    else if (0 === url.indexOf('http://'))        return url;
+    else if (0 === url.indexOf('//'))             return `https:${url}`;
+    else if (0 === url.indexOf('soundcloud.com')) return `https://${url}`;
+    else if (0 === url.indexOf('/'))              return `https://soundcloud.com${url}`;
     else                                          return `https://soundcloud.com/${url}`;
 };
 
