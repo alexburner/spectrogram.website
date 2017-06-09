@@ -53,7 +53,7 @@ const fetchUserTracks = async (user:SC_User):Promise<SC_Track[]> => {
 export const fetchTracks = async (url:string=''):Promise<SC_Track[]> => {
     url = restoreUrl(url);
     if (!url.length) return;
-    if (url.indexOf('?q=') !== -1) return queryTracks(url);
+    if (url.indexOf('?q=') !== -1) return searchTracks(url);
     try {
         events.emit('loadchange', true);
         const resource:SC_Resource = await SC.resolve(url);
@@ -82,7 +82,7 @@ export const fetchTracks = async (url:string=''):Promise<SC_Track[]> => {
     }
 };
 
-export const queryTracks = async (url:string):Promise<SC_Track[]> => {
+const searchTracks = async (url:string):Promise<SC_Track[]> => {
     const q = url.slice(url.indexOf('?q='));
     try {
         events.emit('loadchange', true);
