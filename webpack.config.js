@@ -18,9 +18,9 @@ module.exports = {
 		extensions: ['.ts', '.tsx', '.js', '.json'],
 		// Add node_modules and project directory for absolute paths
 		modules: [
-	        path.resolve(__dirname),
-	        'node_modules',
-	    ],
+			path.resolve(__dirname),
+			'node_modules',
+		],
 	},
 
 	module: {
