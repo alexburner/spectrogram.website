@@ -1,8 +1,8 @@
-# spectrogram.party
+# spectrogram.website
 
 Audio spectrogram visualization for SoundCloud tracks
 
-Living at https://spectrogram.party/
+Living at https://spectrogram.website/
 
 ## install
 Install npm dependencies
