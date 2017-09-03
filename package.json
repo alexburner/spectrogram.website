@@ -1,7 +1,7 @@
 {
-  "name": "spectrogram.website",
+  "name": "spectrogram",
   "version": "0.2.1",
-  "description": "Audio spectrogram visualization for SoundCloud tracks",
+  "description": "Audio visualization for SoundCloud tracks",
   "main": "index.js",
   "scripts": {
     "build": "rm -rf docs/* && webpack -p",

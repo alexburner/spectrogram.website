@@ -1,6 +1,6 @@
-# spectrogram.website
+# spectrogram
 
-Audio spectrogram visualization for SoundCloud tracks
+Audio visualization for SoundCloud tracks
 
 Living at https://spectrogram.website/
 
