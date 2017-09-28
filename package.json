@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/alexburner/soundcloud-spectrogram.git"
+    "url": "git+https://github.com/alexburner/spectrogram.website.git"
   },
   "author": "aburner",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/alexburner/soundcloud-spectrogram/issues"
+    "url": "https://github.com/alexburner/spectrogram.website/issues"
   },
-  "homepage": "https://github.com/alexburner/soundcloud-spectrogram#readme",
+  "homepage": "https://github.com/alexburner/spectrogram.website#readme",
   "devDependencies": {
     "awesome-typescript-loader": "3.1.3",
     "copy-webpack-plugin": "4.0.1",
