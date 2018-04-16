@@ -32,7 +32,7 @@ export interface SC_User {
 
 export type SC_Resource = SC_Set|SC_Track|SC_User;
 
-export const client_id = '5Fs6ZkkdEgn8Ygc7xKYumtor6mrxIhb3';
+export const client_id = 'Z8yVpZ0DJ4FcMwo5kk0bCEPNFfHs6AXJ';
 export const events = new EventEmitter();
 
 const restoreUrl = (url:string=''):string => {
