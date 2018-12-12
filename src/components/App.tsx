@@ -37,6 +37,7 @@ export default class App extends React.Component<undefined, undefined> {
     }
 
     componentDidMount() {
+        // Keyboard events
         document.addEventListener('keydown', (e) => {
             if ((e.target as HTMLElement).tagName.toLowerCase() === 'input') return;
             switch (e.keyCode) {
@@ -62,12 +63,17 @@ export default class App extends React.Component<undefined, undefined> {
                 }
             }
         });
+
+        // URL changes
         window.addEventListener('hashchange', () => {
             loadHashTracks().then(() => {
                 playlist.playTrack(0);
                 scroll.toTop();
             });
         });
+
+        // Initial page load
+        loadHashTracks();
     }
 }
 
